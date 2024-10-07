@@ -18,7 +18,7 @@ if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
     st.write("Dữ liệu huấn luyện:")
-    st.write(train_data)
+    st.write(train_data.head())
 
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
