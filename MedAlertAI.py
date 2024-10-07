@@ -44,13 +44,19 @@ if train_file and uploaded_file:
         if column not in numeric_columns:
             combined_data[column] = combined_data[column].astype('object')
 
+    # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
+    combined_data = combined_data.dropna()
+
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
     for column in combined_data.columns:
         if combined_data[column].dtype == 'object':
             le = LabelEncoder()
-            combined_data[column] = le.fit_transform(combined_data[column])
-            label_encoders[column] = le
+            try:
+                combined_data[column] = le.fit_transform(combined_data[column])
+                label_encoders[column] = le
+            except TypeError as e:
+                st.error(f"Lỗi khi mã hóa cột {column}: {e}")
 
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán
     train_data_encoded = combined_data[combined_data['is_train'] == 1].drop(columns=['is_train'])
@@ -85,6 +91,15 @@ if train_file and uploaded_file:
     result_df = pd.DataFrame({'Prediction': predictions})
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Normal', -1: 'Anomaly'})
     st.write(result_df)
+
+    # Nút để xóa file mô hình
+    if st.button("Xóa file mô hình"):
+        if os.path.exists(model_file):
+            os.remove(model_file)
+            st.success(f"File {model_file} đã được xóa.")
+        else:
+            st.warning(f"File {model_file} không tồn tại.")
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
+
 
