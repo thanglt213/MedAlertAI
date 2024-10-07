@@ -1,5 +1,5 @@
 import streamlit as st
-import pickle
+import joblib
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder
@@ -16,7 +16,7 @@ uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"]
 
 # Nút để xóa file mô hình
 if st.button("Xóa file mô hình"):
-    model_file = 'model.pkl'
+    model_file = 'model.joblib'
     if os.path.exists(model_file):
         os.remove(model_file)
         st.success(f"File {model_file} đã được xóa.")
@@ -71,26 +71,21 @@ if train_file and uploaded_file:
     data_encoded = combined_data[combined_data['is_train'] == 0].drop(columns=['is_train'])
 
     # Khởi tạo mô hình Isolation Forest
-    model_file = 'model.pkl'
+    model_file = 'model.joblib'
 
     if os.path.exists(model_file):
         # Nếu mô hình đã tồn tại, load mô hình từ file
-        with open(model_file, 'rb') as file:
-            model = pickle.load(file)
+        model = joblib.load(model_file)
         st.write("Mô hình đã được tải từ file.")
     else:
         # Nếu mô hình chưa tồn tại, huấn luyện mô hình
-        st.write("Khởi tạo mô hình...")
         model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
         
         # Huấn luyện mô hình chỉ với dữ liệu đầu vào
-        st.write("Huấn luyện mô hình...")
         model.fit(train_data_encoded)
-        st.write("Huấn luyện xong mô hình...")
 
         # Lưu mô hình lại
-        with open(model_file, 'wb') as file:
-            pickle.dump(model, file)
+        joblib.dump(model, model_file)
         st.write("Mô hình đã được huấn luyện và lưu vào file.")
 
     # Dự đoán với dữ liệu mới
