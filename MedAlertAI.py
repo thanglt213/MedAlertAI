@@ -95,9 +95,10 @@ if train_file and uploaded_file:
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
     # Kiểm tra hình dạng dữ liệu huấn luyện
-    st.write("Shape của train_data_encoded:", train_data_encoded.shape)
+    st.write("Shape của train_data_encoded XXXX:", train_data_encoded.shape)
 
     if train_data_encoded.shape[0] == 0:
+        st.write("Shape của train_data_encoded CCCC:", train_data_encoded.shape[0])
         st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào.")
     else:
         # Khởi tạo mô hình Isolation Forest
