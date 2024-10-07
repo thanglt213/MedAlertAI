@@ -29,11 +29,13 @@ if train_file and uploaded_file:
     train_data = pd.read_csv(train_file)
     st.write("Dữ liệu huấn luyện:")
     st.write(train_data)
+    st.write("Shape của dữ liệu huấn luyện:", train_data.shape)
 
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
     st.write("Dữ liệu dự đoán:")
     st.write(data)
+    st.write("Shape của dữ liệu dự đoán:", data.shape)
 
     # Thêm cột 'is_train' để đánh dấu tập dữ liệu huấn luyện và dự đoán
     train_data['is_train'] = 1
@@ -41,6 +43,7 @@ if train_file and uploaded_file:
 
     # Gộp train_data và data
     combined_data = pd.concat([train_data, data], ignore_index=True)
+    st.write("Shape của combined_data sau khi gộp:", combined_data.shape)
 
     # Kiểm tra và xử lý giá trị NaN
     combined_data.fillna('missing', inplace=True)
@@ -55,6 +58,7 @@ if train_file and uploaded_file:
 
     # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
     combined_data = combined_data.dropna()
+    st.write("Shape của combined_data sau khi xử lý NaN:", combined_data.shape)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
@@ -72,36 +76,37 @@ if train_file and uploaded_file:
     data_encoded = combined_data[combined_data['is_train'] == 0].drop(columns=['is_train'])
 
     # Kiểm tra hình dạng dữ liệu huấn luyện
-    st.write("Shape của dữ liệu huấn luyện:", train_data_encoded.shape)
+    st.write("Shape của train_data_encoded:", train_data_encoded.shape)
 
-    # Khởi tạo mô hình Isolation Forest
-    model_file = 'model.joblib'
-
-    if os.path.exists(model_file):
-        # Nếu mô hình đã tồn tại, load mô hình từ file
-        model = joblib.load(model_file)
-        st.write("Mô hình đã được tải từ file.")
+    if train_data_encoded.shape[0] == 0:
+        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào.")
     else:
-        # Nếu mô hình chưa tồn tại, huấn luyện mô hình
-        model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
+        # Khởi tạo mô hình Isolation Forest
+        model_file = 'model.joblib'
 
-        # Kiểm tra dữ liệu huấn luyện
-        if train_data_encoded.isnull().values.any():
-            st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình.")
-        elif train_data_encoded.shape[0] == 0:
-            st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào.")
+        if os.path.exists(model_file):
+            # Nếu mô hình đã tồn tại, load mô hình từ file
+            model = joblib.load(model_file)
+            st.write("Mô hình đã được tải từ file.")
         else:
-            # Ensure all data is numeric
-            train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
+            # Nếu mô hình chưa tồn tại, huấn luyện mô hình
+            model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
 
-            # Attempt to fit the model
-            try:
-                model.fit(train_data_encoded)
-                # Lưu mô hình lại
-                joblib.dump(model, model_file)
-                st.write("Mô hình đã được huấn luyện và lưu vào file.")
-            except ValueError as e:
-                st.error(f"Lỗi khi huấn luyện mô hình: {e}")
+            # Kiểm tra dữ liệu huấn luyện
+            if train_data_encoded.isnull().values.any():
+                st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình.")
+            else:
+                # Ensure all data is numeric
+                train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
+
+                # Attempt to fit the model
+                try:
+                    model.fit(train_data_encoded)
+                    # Lưu mô hình lại
+                    joblib.dump(model, model_file)
+                    st.write("Mô hình đã được huấn luyện và lưu vào file.")
+                except ValueError as e:
+                    st.error(f"Lỗi khi huấn luyện mô hình: {e}")
 
     # Dự đoán với dữ liệu mới
     predictions = model.predict(data_encoded)
