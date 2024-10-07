@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder
 import os
+import numpy as np
 
 # Giao diện Streamlit
 st.title("Machine Learning Prediction App with Isolation Forest")
@@ -80,13 +81,22 @@ if train_file and uploaded_file:
     else:
         # Nếu mô hình chưa tồn tại, huấn luyện mô hình
         model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
-        
-        # Huấn luyện mô hình chỉ với dữ liệu đầu vào
-        model.fit(train_data_encoded)
 
-        # Lưu mô hình lại
-        joblib.dump(model, model_file)
-        st.write("Mô hình đã được huấn luyện và lưu vào file.")
+        # Kiểm tra dữ liệu huấn luyện
+        if train_data_encoded.isnull().values.any():
+            st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình.")
+        else:
+            # Ensure all data is numeric
+            train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
+
+            # Attempt to fit the model
+            try:
+                model.fit(train_data_encoded)
+                # Lưu mô hình lại
+                joblib.dump(model, model_file)
+                st.write("Mô hình đã được huấn luyện và lưu vào file.")
+            except ValueError as e:
+                st.error(f"Lỗi khi huấn luyện mô hình: {e}")
 
     # Dự đoán với dữ liệu mới
     predictions = model.predict(data_encoded)
