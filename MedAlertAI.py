@@ -90,7 +90,7 @@ if train_file and uploaded_file:
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
     st.write("Shape của train_data_encoded trước khi xử lý NaN:", combined_data.iloc[:num_train_rows].shape)
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
-    st.write("Shape của train_data_encoded sau khi xử lý NaN:", combined_data.shape)
+    st.write("Shape của train_data_encoded sau khi xử lý NaN:", train_data_encoded.shape)
 
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
