@@ -65,7 +65,7 @@ if train_file and uploaded_file:
 
     # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
     combined_data = combined_data.dropna()
-    st.write("Shape của combined_data sau khi xử lý NaN:", combined_data.shape)
+    st.write("Shape của combined_data sau khi xử lý NaN - dòng 68:", combined_data.shape)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
@@ -83,17 +83,17 @@ if train_file and uploaded_file:
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
     # Kiểm tra hình dạng dữ liệu huấn luyện
-    st.write("Shape của train_data_encoded:", train_data_encoded.shape)
+    st.write("Shape của train_data_encoded - dòng 86:", train_data_encoded.shape)
 
     if train_data_encoded.shape[0] == 0:
-        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào.")
+        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào. - dòng 89")
     else:
         # Khởi tạo mô hình Isolation Forest
         model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
 
         # Kiểm tra dữ liệu huấn luyện
         if train_data_encoded.isnull().values.any():
-            st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình.")
+            st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình. - dòng 96")
         else:
             # Ensure all data is numeric
             train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
