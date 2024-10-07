@@ -99,7 +99,7 @@ if train_file and uploaded_file:
 
     if train_data_encoded.shape[0] == 0:
         st.write("Shape của train_data_encoded CCCC:", train_data_encoded.shape[0])
-        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào.")
+        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào. BBBBBBBBBBB")
     else:
         # Khởi tạo mô hình Isolation Forest
         model_file = 'model.joblib'
@@ -114,7 +114,7 @@ if train_file and uploaded_file:
 
             # Kiểm tra dữ liệu huấn luyện
             if train_data_encoded.isnull().values.any():
-                st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình.")
+                st.error("Dữ liệu huấn luyện chứa giá trị NaN EEEEEEEEE. Vui lòng xử lý trước khi huấn luyện mô hình.")
             else:
                 # Ensure all data is numeric
                 train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
