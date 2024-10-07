@@ -73,7 +73,7 @@ if train_file and uploaded_file:
     combined_data[numeric_columns] = combined_data[numeric_columns].apply(pd.to_numeric, errors='coerce')
 
     # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
-    combined_data = combined_data.dropna()
+    #combined_data = combined_data.dropna()
     st.write("Shape của combined_data sau khi xử lý NaN:", combined_data.shape)
 
     # Mã hóa các cột phân loại trong combined_data
