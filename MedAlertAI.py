@@ -81,10 +81,13 @@ if train_file and uploaded_file:
         st.write("Mô hình đã được tải từ file.")
     else:
         # Nếu mô hình chưa tồn tại, huấn luyện mô hình
+        st.write("Khởi tạo mô hình...")
         model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
         
         # Huấn luyện mô hình chỉ với dữ liệu đầu vào
+        st.write("Huấn luyện mô hình...")
         model.fit(train_data_encoded)
+        st.write("Huấn luyện xong mô hình...")
 
         # Lưu mô hình lại
         with open(model_file, 'wb') as file:
