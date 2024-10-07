@@ -1,6 +1,7 @@
 streamlit
 pickle
 pandas
+scikit-learn
 sklearn.ensemble
 sklearn.preprocessing
 os
