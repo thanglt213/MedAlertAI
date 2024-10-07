@@ -35,9 +35,14 @@ if train_file and uploaded_file:
     # Kiểm tra và xử lý giá trị NaN
     combined_data.fillna('missing', inplace=True)
 
-    # Kiểm tra kiểu dữ liệu của các cột
-    st.write("Kiểu dữ liệu của các cột:")
-    st.write(combined_data.dtypes)
+    # Chuyển đổi các trường thành kiểu dữ liệu mong muốn
+    numeric_columns = ['group', 'days_to_report', 'requested_amount_per_day']
+    combined_data[numeric_columns] = combined_data[numeric_columns].apply(pd.to_numeric, errors='coerce')
+
+    # Chuyển đổi tất cả các cột còn lại thành kiểu object
+    for column in combined_data.columns:
+        if column not in numeric_columns:
+            combined_data[column] = combined_data[column].astype('object')
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
@@ -82,3 +87,4 @@ if train_file and uploaded_file:
     st.write(result_df)
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
+
