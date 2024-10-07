@@ -18,19 +18,26 @@ if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
     st.write("Dữ liệu huấn luyện:")
-    st.write(train_data.head())
+    st.write(train_data)
 
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
     st.write("Dữ liệu dự đoán:")
     st.write(data)
-    
+
     # Thêm cột 'is_train' để đánh dấu tập dữ liệu huấn luyện và dự đoán
     train_data['is_train'] = 1
     data['is_train'] = 0
 
     # Gộp train_data và data
     combined_data = pd.concat([train_data, data], ignore_index=True)
+
+    # Kiểm tra và xử lý giá trị NaN
+    combined_data.fillna('missing', inplace=True)
+
+    # Kiểm tra kiểu dữ liệu của các cột
+    st.write("Kiểu dữ liệu của các cột:")
+    st.write(combined_data.dtypes)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
@@ -75,4 +82,3 @@ if train_file and uploaded_file:
     st.write(result_df)
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
-
