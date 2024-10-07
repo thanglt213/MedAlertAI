@@ -31,6 +31,9 @@ if train_file and uploaded_file:
     st.write(train_data)
     st.write("Shape của dữ liệu huấn luyện:", train_data.shape)
 
+    # Lưu số dòng của dữ liệu huấn luyện
+    num_train_rows = train_data.shape[0]
+
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
     st.write("Dữ liệu dự đoán:")
@@ -48,6 +51,10 @@ if train_file and uploaded_file:
     # Hiển thị dữ liệu sau khi gộp
     st.write("Dữ liệu sau khi gộp:")
     st.write(combined_data)
+
+    # Kiểm tra các giá trị trong cột 'is_train'
+    st.write("Giá trị trong cột 'is_train':")
+    st.write(combined_data['is_train'].value_counts())
 
     # Kiểm tra các cột rỗng trước khi xử lý NaN
     st.write("Số lượng giá trị NaN trong từng cột trước khi xử lý:")
@@ -80,9 +87,9 @@ if train_file and uploaded_file:
             except TypeError as e:
                 st.error(f"Lỗi khi mã hóa cột {column}: {e}")
 
-    # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán
-    train_data_encoded = combined_data[combined_data['is_train'] == 1].drop(columns=['is_train'])
-    data_encoded = combined_data[combined_data['is_train'] == 0].drop(columns=['is_train'])
+    # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
+    train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
+    data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
     # Kiểm tra hình dạng dữ liệu huấn luyện
     st.write("Shape của train_data_encoded:", train_data_encoded.shape)
