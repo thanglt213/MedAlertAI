@@ -45,6 +45,15 @@ if train_file and uploaded_file:
     combined_data = pd.concat([train_data, data], ignore_index=True)
     st.write("Shape của combined_data sau khi gộp:", combined_data.shape)
 
+    # Hiển thị dữ liệu sau khi gộp
+    st.write("Dữ liệu sau khi gộp:")
+    st.write(combined_data)
+
+    # Kiểm tra các cột rỗng trước khi xử lý NaN
+    st.write("Số lượng giá trị NaN trong từng cột trước khi xử lý:")
+    nan_counts = combined_data.isnull().sum()
+    st.write(nan_counts[nan_counts > 0])  # Hiển thị các cột có giá trị NaN
+
     # Kiểm tra và xử lý giá trị NaN
     combined_data.fillna('missing', inplace=True)
 
