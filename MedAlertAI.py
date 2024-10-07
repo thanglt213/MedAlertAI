@@ -71,7 +71,6 @@ if train_file and uploaded_file:
     data_encoded = combined_data[combined_data['is_train'] == 0].drop(columns=['is_train'])
 
     # Khởi tạo mô hình Isolation Forest
-    st.write("Khởi tạo mô hình...")
     model_file = 'model.pkl'
 
     if os.path.exists(model_file):
