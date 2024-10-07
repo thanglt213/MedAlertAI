@@ -95,13 +95,15 @@ if train_file and uploaded_file:
 
     # Hiển thị kết quả dự đoán
     st.write("Kết quả dự đoán:")
-    # Đối với Isolation Forest, 1 là bình thường, -1 là bất thường
     result_df = pd.DataFrame({'Prediction': predictions})
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Normal', -1: 'Anomaly'})
+    
+    # Hiển thị bảng kết quả
     st.write(result_df)
+
+    # Nút tải xuống file CSV kết quả
+    csv = result_df.to_csv(index=False)
+    st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
-
-
-
