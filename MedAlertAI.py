@@ -88,7 +88,10 @@ if train_file and uploaded_file:
                 st.error(f"Lỗi khi mã hóa cột {column}: {e}")
 
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
+    st.write("Shape của train_data_encoded trước khi xử lý NaN:", combined_data.iloc[:num_train_rows].shape)
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
+    st.write("Shape của train_data_encoded sau khi xử lý NaN:", combined_data.shape)
+
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
     # Kiểm tra hình dạng dữ liệu huấn luyện
