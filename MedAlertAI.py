@@ -10,11 +10,22 @@ import numpy as np
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 
-# Upload file CSV cho dữ liệu huấn luyện
-train_file = st.file_uploader("Tải file dữ liệu huấn luyện - CSV file", type=["csv"], key='train')
+# Expander cho upload và hiển thị dữ liệu huấn luyện
+with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
+    train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
+    if train_file is not None:
+        train_data = pd.read_csv(train_file)
+        st.write("Dữ liệu huấn luyện:")
+        st.dataframe(train_data)
 
-# Upload file CSV cho dữ liệu dự đoán
-uploaded_file = st.file_uploader("Tải file dữ liệu cần tìm bất thường - CSV file", type=["csv"], key='data')
+# Expander cho upload và hiển thị dữ liệu dự đoán
+with st.expander("Tải và xem file dữ liệu cần tìm bất thường - CSV file"):
+    uploaded_file = st.file_uploader("Chọn file CSV dự đoán", type=["csv"], key='data')
+    if uploaded_file is not None:
+        predict_data = pd.read_csv(uploaded_file)
+        st.write("Dữ liệu cần tìm bất thường:")
+        st.dataframe(predict_data)
+
 
 # Hàm highlight các dòng
 def highlight_rows(df, column, value, color):
