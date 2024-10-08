@@ -122,7 +122,7 @@ if train_file and uploaded_file:
     # Sắp xếp lại DataFrame theo thứ tự cột mong muốn
     # Thứ tự cột mong muốn
     desired_order = ['Prediction', 'branch', 'claim_no','distribution_channel','hospital']
-    st.write("Chi tiết:", predict_data[desired_order])
+    st.write(predict_data[desired_order])
     
     # Thực hiện highlight
     #highlighted_data = highlight_rows(predict_data, 'Prediction', 'Bất thường', 'lightblue')
