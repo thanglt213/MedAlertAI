@@ -140,7 +140,7 @@ if train_file and uploaded_file:
         prediction_counts, 
         orientation='h',  # 'h' để tạo biểu đồ cột ngang
         title="Số lượng dự đoán theo bệnh viện",
-        labels={"value": "Số lượng", "hospital": "Bệnh viện"}
+        labels={"value": "Số lượng", "hospital": "Bệnh viện"},
         text_auto=True  # Thêm nhãn số lượng trên mỗi thanh
     )
 
