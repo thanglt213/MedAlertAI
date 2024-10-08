@@ -166,6 +166,7 @@ if train_file and uploaded_file:
     st.plotly_chart(fig)
 
     # ------------------------------------------------------- Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
+    # Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
     st.markdown("#### **Kênh khai thác (Tỷ lệ % bất thường):**")
     
     # Lấy dữ liệu liên quan đến distribution_channel và Prediction
@@ -186,13 +187,17 @@ if train_file and uploaded_file:
     # Hiển thị dữ liệu cho biểu đồ
     st.write(prediction_counts[['Bất thường %']])
     
+    # Định dạng nhãn tỷ lệ % với dấu phần trăm
+    prediction_counts['Bất thường % Text'] = prediction_counts['Bất thường %'].map('{:.2f}%'.format)
+    
     # Tạo biểu đồ cột sử dụng Plotly
     fig = px.bar(prediction_counts.reset_index(), 
                  x='distribution_channel', 
                  y='Bất thường %',  # Biểu diễn cột tỷ lệ % bất thường
                  title='Tỷ lệ % hồ sơ bất thường theo kênh khai thác',
                  labels={'Bất thường %': 'Tỷ lệ % Bất thường', 'distribution_channel': 'Kênh khai thác'},
-                 text_auto=True)  # Thêm nhãn tỷ lệ % trên mỗi thanh
+                 text='Bất thường % Text',  # Thay đổi tham số text để hiển thị tỷ lệ %
+                 text_auto=False)  # Tắt text_auto để sử dụng nhãn tùy chỉnh
     
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
