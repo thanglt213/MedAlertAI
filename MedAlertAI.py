@@ -50,7 +50,7 @@ if train_file and uploaded_file:
     combined_data = combined_data.astype('object')
   
     # Chọn các cột kiểu numeric
-    cols_to_numeric =  ['days_to_report', 'requested_amount_per_day']:
+    cols_to_numeric =  ['days_to_report', 'requested_amount_per_day']
 
     # Chuyển các cột trong danh sách về kiểu numeric
     for col in cols_to_numeric:
