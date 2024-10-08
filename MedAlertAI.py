@@ -19,7 +19,7 @@ if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
     st.write("Dữ liệu huấn luyện:")
-    st.write(train_data)
+    st.write(train_data.head())
     st.write("Shape của dữ liệu huấn luyện:", train_data.shape)
 
     # Lưu số dòng của dữ liệu huấn luyện
@@ -28,7 +28,7 @@ if train_file and uploaded_file:
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
     st.write("Dữ liệu dự đoán:")
-    st.write(data)
+    st.write(data.head())
     st.write("Shape của dữ liệu dự đoán:", data.shape)
 
     # Thêm cột 'is_train' để đánh dấu tập dữ liệu huấn luyện và dự đoán
@@ -41,11 +41,7 @@ if train_file and uploaded_file:
 
     # Hiển thị dữ liệu sau khi gộp
     st.write("Dữ liệu sau khi gộp:")
-    st.write(combined_data)
-
-    # Kiểm tra các giá trị trong cột 'is_train'
-    st.write("Giá trị trong cột 'is_train':")
-    st.write(combined_data['is_train'].value_counts())
+    st.write(combined_data.head())
 
     # Kiểm tra các cột rỗng trước khi xử lý NaN
     st.write("Số lượng giá trị NaN trong từng cột trước khi xử lý:")
@@ -65,7 +61,9 @@ if train_file and uploaded_file:
 
     # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
     st.write("Shape của combined_data - dòng 67:", combined_data.shape)
-    st.write(combined_data)
+    st.write(combined_data.head())
+
+    '''
     combined_data = combined_data.dropna()
     st.write("Shape của combined_data sau khi xử lý NaN - dòng 70:", combined_data.shape)
 
@@ -124,3 +122,4 @@ if train_file and uploaded_file:
 
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
+'''
