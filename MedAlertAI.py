@@ -135,7 +135,7 @@ if train_file and uploaded_file:
 
     st.markdown("## 3. Trực quan hóa kết quả dự đoán")
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác --------------------------------------------------
-    st.markdown("**Kênh khai thác**")
+    st.markdown("####**Kênh khai thác**")
     
     chart_data = predict_data[['distribution_channel', 'Prediction']]
     # Đếm số lượng prediction theo distribution_channel
@@ -157,7 +157,7 @@ if train_file and uploaded_file:
     st.plotly_chart(fig)
 
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện -------------------------------------------------------
-    st.markdown("**Theo bệnh viện**")
+    st.markdown("####**Theo bệnh viện**")
     chart_data = predict_data[['hospital', 'Prediction']]
 
     # Đếm số lượng prediction theo hospital
