@@ -48,19 +48,15 @@ if train_file and uploaded_file:
     nan_counts = combined_data.isnull().sum()
     st.write(nan_counts[nan_counts > 0])  # Hiển thị các cột có giá trị NaN
 
-    # Kiểm tra và xử lý giá trị NaN
-    combined_data.fillna('missing', inplace=True)
-
     # Chuyển tất cả các cột thành kiểu chuỗi
-    for column in combined_data.columns:
-        combined_data[column] = combined_data[column].astype(str)
+    for col in combined_data.columns:
+        combined_data[col] = combined_data[col].astype(str)
 
     # Chuyển đổi các trường cụ thể thành kiểu số
     numeric_columns = ['group', 'days_to_report', 'requested_amount_per_day']
     combined_data[numeric_columns] = combined_data[numeric_columns].astype(int64)
 
-    # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
-    st.write("Shape của combined_data - dòng 67:", combined_data.shape)
+    # Hiển thị dữ liệu sau chuyển đổi kiểu
     st.write(combined_data.head())
 
     '''
