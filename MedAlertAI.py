@@ -148,6 +148,7 @@ if train_file and uploaded_file:
              y=prediction_counts.columns, 
              title='Số lượng hồ sơ bồi thường theo kênh khai thác',
              labels={'value': '', 'distribution_channel': ''},
+             text_auto=True,  # Thêm nhãn số lượng trên mỗi thanh
              barmode='stack')
 
     # Hiển thị biểu đồ trong Streamlit
