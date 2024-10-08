@@ -134,7 +134,7 @@ if train_file and uploaded_file:
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
     st.markdown("## 3. Trực quan hóa kết quả dự đoán")
-    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
+    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác --------------------------------------------------
     chart_data = predict_data[['distribution_channel', 'Prediction']]
     # Đếm số lượng prediction theo distribution_channel
     prediction_counts = chart_data.groupby(['distribution_channel', 'Prediction']).size().unstack(fill_value=0)
@@ -142,11 +142,18 @@ if train_file and uploaded_file:
     # Hiển thị dữ liệu cho biểu đồ
     st.write(prediction_counts)
 
-    # Sử dụng st.bar_chart để vẽ biểu đồ
-    st.bar_chart(prediction_counts)
+    # Tạo biểu đồ cột sử dụng Plotly 
+    fig = px.bar(prediction_counts.reset_index(), 
+             x='distribution_channel', 
+             y=prediction_counts.columns, 
+             title='Số lượng hồ sơ bồi thường theo kênh khai thác',
+             labels={'value': '', 'distribution_channel': ''},
+             barmode='stack')
 
+    # Hiển thị biểu đồ trong Streamlit
+    st.plotly_chart(fig)
 
-    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện
+    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện -------------------------------------------------------
     chart_data = predict_data[['hospital', 'Prediction']]
 
     # Đếm số lượng prediction theo hospital
@@ -159,7 +166,7 @@ if train_file and uploaded_file:
     fig = px.bar(
         prediction_counts, 
         orientation='h',  # 'h' để tạo biểu đồ cột ngang
-        title="Số lượng dự đoán theo bệnh viện",
+        title="Số lượng hồ sơ dự đoán theo bệnh viện",
         labels={"value": "", "hospital": ""},
         text_auto=True  # Thêm nhãn số lượng trên mỗi thanh
     )
