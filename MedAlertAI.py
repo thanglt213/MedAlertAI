@@ -141,6 +141,7 @@ if train_file and uploaded_file:
         orientation='h',  # 'h' để tạo biểu đồ cột ngang
         title="Số lượng dự đoán theo bệnh viện",
         labels={"value": "Số lượng", "hospital": "Bệnh viện"}
+        text_auto=True  # Thêm nhãn số lượng trên mỗi thanh
     )
 
     # Hiển thị biểu đồ với Streamlit
