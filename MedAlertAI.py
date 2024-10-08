@@ -131,6 +131,7 @@ if train_file and uploaded_file:
     result_df = pd.DataFrame({'Prediction': predictions})
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Normal', -1: 'Anomaly'})
     data['Prediction'] = result_df['Prediction']
+    st.write("Kết quả dự đoán--------------:")
     
     # Hiển thị bảng kết quả
     #st.write(data)
