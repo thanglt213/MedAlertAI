@@ -19,6 +19,8 @@ if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
     st.write("Dữ liệu huấn luyện:", train_data.shape)
+    # Xóa dữ liệu NaN
+    train_data = train_data.dropna()
     st.write(train_data.head())
 
     # Lưu số dòng của dữ liệu huấn luyện
@@ -27,6 +29,8 @@ if train_file and uploaded_file:
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
     st.write("Dữ liệu dự đoán:", data.shape)
+    # Xóa dữ liệu NaN
+    data = data.dropna()
     st.write(data.head())
 
     # Thêm cột 'is_train' để đánh dấu tập dữ liệu huấn luyện và dự đoán
@@ -35,12 +39,6 @@ if train_file and uploaded_file:
 
     # Gộp train_data và data
     combined_data = pd.concat([train_data, data], ignore_index=True)
-    st.write("Shape của combined_data sau khi gộp:", combined_data.shape)
-
-    # Kiểm tra các cột rỗng trước khi xử lý NaN
-    st.write("Số lượng giá trị NaN trong từng cột trước khi xử lý:")
-    nan_counts = combined_data.isnull().sum()
-    st.write(nan_counts[nan_counts > 0])  # Hiển thị các cột có giá trị NaN
 
     # Chuyển tất cả các cột thành kiểu chuỗi
     for col in combined_data.columns:
@@ -49,10 +47,6 @@ if train_file and uploaded_file:
     # Chuyển đổi các trường cụ thể thành kiểu số
     numeric_columns = ['days_to_report', 'requested_amount_per_day']
     combined_data[numeric_columns] = combined_data[numeric_columns].apply(pd.to_numeric, errors='coerce')
-
-    # Hiển thị dữ liệu sau chuyển đổi kiểu
-    st.write("Dữ liệu sau chuyển đổi kiểu:")
-    st.write(combined_data.head())
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
@@ -69,25 +63,17 @@ if train_file and uploaded_file:
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
-    if train_data_encoded.shape[0] == 0:
-        st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào. - dòng 89")
-    else:
-        # Khởi tạo mô hình Isolation Forest
-        model = IsolationForest(n_estimators=100, contamination=0.05, random_state=42)
+    # Hiển thị dữ liệu sau mã hóa và chuẩn hóa
+    st.write("Dữ liệu sau mã hóa và chuẩn hóa:",data_encoded.head())
 
-        # Kiểm tra dữ liệu huấn luyện
-        if train_data_encoded.isnull().values.any():
-            st.error("Dữ liệu huấn luyện chứa giá trị NaN. Vui lòng xử lý trước khi huấn luyện mô hình. - dòng 96")
-        else:
-            # Ensure all data is numeric
-            train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
+    # Khởi tạo mô hình Isolation Forest
+    model = IsolationForest(n_estimators=100, contamination=0.05, random_state=42)
 
-            # Attempt to fit the model
-            try:
-                model.fit(train_data_encoded)
-                st.write("Mô hình đã được huấn luyện thành công.")
-            except ValueError as e:
-                st.error(f"Lỗi khi huấn luyện mô hình: {e}")
+    # Lấy dữ liệu để huấn luyện
+    train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
+    # Huấn luyện mô hình
+    model.fit(train_data_encoded)
+    st.write("Mô hình đã được huấn luyện thành công.")
 
     # Dự đoán với dữ liệu mới
     st.write("Dự đoán:")
