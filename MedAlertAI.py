@@ -94,7 +94,6 @@ if train_file and uploaded_file:
     st.write("Mô hình đã được huấn luyện thành công.")
 
     # Dự đoán với dữ liệu mới
-    st.write("Dự đoán:")
     predictions = model.predict(predict_data_encoded)
 
     # Update kết quả dự đoán vào dữ liệu gốc
