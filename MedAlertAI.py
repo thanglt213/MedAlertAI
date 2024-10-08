@@ -65,8 +65,9 @@ if train_file and uploaded_file:
 
     # Xóa các cột có NaN sau khi chuyển đổi (nếu có)
     st.write("Shape của combined_data - dòng 67:", combined_data.shape)
+    st.write(combined_data)
     combined_data = combined_data.dropna()
-    st.write("Shape của combined_data sau khi xử lý NaN - dòng 69:", combined_data.shape)
+    st.write("Shape của combined_data sau khi xử lý NaN - dòng 70:", combined_data.shape)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
