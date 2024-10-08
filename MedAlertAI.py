@@ -8,13 +8,13 @@ import os
 import numpy as np
 
 # Giao diện Streamlit
-st.title("Machine Learning Prediction App with Isolation Forest")
+st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 
 # Upload file CSV cho dữ liệu huấn luyện
-train_file = st.file_uploader("Upload your training data CSV file", type=["csv"], key='train')
+train_file = st.file_uploader("Tải file dữ liệu huấn luyện - CSV file", type=["csv"], key='train')
 
 # Upload file CSV cho dữ liệu dự đoán
-uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"], key='data')
+uploaded_file = st.file_uploader("Tải file dữ liệu cần tìm bất thường - CSV file", type=["csv"], key='data')
 
 # Hàm highlight các dòng
 def highlight_rows(df, column, value, color):
