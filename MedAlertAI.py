@@ -195,7 +195,7 @@ if train_file and uploaded_file:
     prediction_percentage = prediction_percentage.drop(columns='Total')
     
     # Sắp xếp theo cột 'Bất thường' giảm dần (hoặc 'Bình thường' nếu muốn)
-    prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=False)
+    prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=True)
     
     # Hiển thị dữ liệu để kiểm tra
     st.write(prediction_percentage)
