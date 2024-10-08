@@ -15,23 +15,26 @@ train_file = st.file_uploader("Upload your training data CSV file", type=["csv"]
 # Upload file CSV cho dữ liệu dự đoán
 uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"], key='data')
 
-def highlight_dataframe(dataframe, column_name, highlight_value):
+def highlight_dataframe(dataframe, column_name, highlight_value, color='lightgreen'):
     """
-    Tô màu các dòng trong dataframe dựa trên giá trị của một cột.
+    Tô màu các ô trong một cột dựa trên giá trị cụ thể. Các ô còn lại giữ kiểu hiển thị mặc định.
 
     Parameters:
     dataframe (pd.DataFrame): DataFrame cần tô màu.
-    column_name (str): Tên của cột chứa giá trị dựa vào đó để tô màu.
+    column_name (str): Tên của cột chứa giá trị để tô màu.
     highlight_value: Giá trị cần highlight (dùng để so sánh).
+    color (str): Màu cho các ô có giá trị bằng highlight_value.
 
     Returns:
-    pd.io.formats.style.Styler: DataFrame đã được tô màu.
+    pd.io.formats.style.Styler: DataFrame đã được tô màu cho các ô cụ thể.
     """
     
-    # Sử dụng lambda function trực tiếp trong apply
-    return dataframe.style.apply(lambda row: 
-                                 ['background-color: lightgreen' if row[column_name] == highlight_value 
-                                  else 'background-color: lightcoral'] * len(row), axis=1)
+    # Áp dụng màu chỉ cho các ô trong cột được chỉ định
+    def highlight_cells(val):
+        return f'background-color: {color}' if val == highlight_value else ''
+    
+    # Áp dụng highlight_cells cho toàn bộ cột được chọn
+    return dataframe.style.applymap(highlight_cells, subset=[column_name])
 
 if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
@@ -132,7 +135,7 @@ if train_file and uploaded_file:
     #st.write(data)
 
     # Gọi hàm để tô màu DataFrame dựa vào cột 'prediction' và highlight giá trị 1
-    styled_data = highlight_dataframe(data, 'Prediction', 'Normal')
+    styled_data = highlight_dataframe(data, 'Prediction', 'Normal', color = 'lightblue')
     st.dataframe(styled_data)
     
     # Nút tải xuống file CSV kết quả
