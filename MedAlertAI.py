@@ -15,6 +15,24 @@ train_file = st.file_uploader("Upload your training data CSV file", type=["csv"]
 # Upload file CSV cho dữ liệu dự đoán
 uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"], key='data')
 
+def highlight_dataframe(dataframe, column_name, highlight_value):
+    """
+    Tô màu các dòng trong dataframe dựa trên giá trị của một cột.
+
+    Parameters:
+    dataframe (pd.DataFrame): DataFrame cần tô màu.
+    column_name (str): Tên của cột chứa giá trị dựa vào đó để tô màu.
+    highlight_value: Giá trị cần highlight (dùng để so sánh).
+
+    Returns:
+    pd.io.formats.style.Styler: DataFrame đã được tô màu.
+    """
+    
+    # Sử dụng lambda function trực tiếp trong apply
+    return dataframe.style.apply(lambda row: 
+                                 ['background-color: lightgreen' if row[column_name] == highlight_value 
+                                  else 'background-color: lightcoral'] * len(row), axis=1)
+
 if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
@@ -111,8 +129,12 @@ if train_file and uploaded_file:
     data['Prediction'] = result_df['Prediction']
     
     # Hiển thị bảng kết quả
-    st.write(data)
+    #st.write(data)
 
+    # Gọi hàm để tô màu DataFrame dựa vào cột 'prediction' và highlight giá trị 1
+    styled_data = highlight_dataframe(data, 'Prediction', 'Normal')
+    st.dataframe(styled_data)
+    
     # Nút tải xuống file CSV kết quả
     csv = data.to_csv(index=False)
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
