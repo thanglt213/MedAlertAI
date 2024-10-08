@@ -13,6 +13,7 @@ st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức 
 
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
+st.markdown("## Tải dữ liệu huấn luyện và dự đoán")
 # Expander cho upload và hiển thị dữ liệu huấn luyện
 with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
     train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
@@ -94,8 +95,9 @@ if train_file and uploaded_file:
     train_data_encoded = train_data_encoded.select_dtypes(include=[np.number])
     # Huấn luyện mô hình
     model.fit(train_data_encoded)
-    st.write("Mô hình đã được huấn luyện thành công.")
+    st.info("Mô hình đã được huấn luyện thành công.")
 
+    st.markdown("## Dự đoán")
     # Dự đoán với dữ liệu mới
     predictions = model.predict(predict_data_encoded)
 
@@ -116,6 +118,7 @@ if train_file and uploaded_file:
     csv = predict_data.to_csv(index=False)
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
+    st.markdown("## Trực quan hóa kết quả dự đoán")
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
     chart_data = predict_data[['distribution_channel', 'Prediction']]
     # Đếm số lượng prediction theo distribution_channel
