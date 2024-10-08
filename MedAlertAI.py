@@ -47,7 +47,7 @@ if train_file and uploaded_file:
     combined_data = pd.concat([train_data, predict_data], ignore_index=True)
 
     # Chuyển một số trường về kiểu numeric còn lại về dạng object
-    combined_data = combined_data.astype('object')
+    combined_data = combined_data.astype('str')
   
     # Chọn các cột kiểu numeric
     cols_to_numeric =  ['days_to_report', 'requested_amount_per_day']
