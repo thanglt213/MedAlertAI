@@ -104,7 +104,7 @@ if train_file and uploaded_file:
     
     # Hiển thị DataFrame 
     # Thực hiện highlight
-    highlighted_data = highlight_rows(data, 'Prediction', 'Bất thường', 'lightblue')
+    highlighted_data = highlight_rows(data, 'Prediction', 'Bất thường', 'lightyellow')
 
     # Hiển thị dataframe với highlight
     st.dataframe(highlighted_data)
