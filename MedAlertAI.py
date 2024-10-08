@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 import os
 import numpy as np
 
@@ -58,6 +59,13 @@ if train_file and uploaded_file:
                 label_encoders[column] = le
             except TypeError as e:
                 st.error(f"Lỗi khi mã hóa cột {column}: {e}")
+                
+    # Chuẩn hóa dữ liệu bằng Standard Scaler
+    # Khởi tạo StandardScaler
+    scaler = StandardScaler()
+
+    # Chuẩn hóa dữ liệu (chỉ chọn các cột cần chuẩn hóa)
+    combined_data = scaler.fit_transform(combined_data)
 
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
