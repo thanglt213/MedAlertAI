@@ -60,9 +60,6 @@ if train_file and uploaded_file:
     st.write("Dữ liệu sau chuyển đổi kiểu:")
     st.write(combined_data.head())
 
-
-    
-    '''
     combined_data = combined_data.dropna()
     st.write("Shape của combined_data sau khi xử lý NaN - dòng 70:", combined_data.shape)
 
@@ -121,4 +118,4 @@ if train_file and uploaded_file:
 
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
-'''
+
