@@ -53,7 +53,7 @@ if train_file and uploaded_file:
         combined_data[col] = combined_data[col].astype(str)
 
     # Chuyển đổi các trường cụ thể thành kiểu số
-    numeric_columns = ['group', 'days_to_report', 'requested_amount_per_day']
+    numeric_columns = ['days_to_report', 'requested_amount_per_day']
     combined_data[numeric_columns] = combined_data[numeric_columns].apply(pd.to_numeric, errors='coerce')
 
     # Hiển thị dữ liệu sau chuyển đổi kiểu
