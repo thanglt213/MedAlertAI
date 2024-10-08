@@ -65,8 +65,11 @@ if train_file and uploaded_file:
     scaler = StandardScaler()
 
     # Chuẩn hóa dữ liệu (chỉ chọn các cột cần chuẩn hóa)
-    combined_data = scaler.fit_transform(combined_data)
+    scaled_data = scaler.fit_transform(combined_data)
 
+    # Chuyển dữ liệu đã chuẩn hóa thành DataFrame
+    combined_data = pd.DataFrame(scaled_data, columns=df.columns)
+    
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
