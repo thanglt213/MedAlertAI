@@ -123,6 +123,7 @@ if train_file and uploaded_file:
                 st.error(f"Lỗi khi huấn luyện mô hình: {e}")
 
     # Dự đoán với dữ liệu mới
+    st.write("Dự đoán:")
     predictions = model.predict(data_encoded)
 
     # Hiển thị kết quả dự đoán
