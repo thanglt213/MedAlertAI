@@ -112,6 +112,11 @@ if train_file and uploaded_file:
     # Nút tải xuống file CSV kết quả
     csv = predict_data.to_csv(index=False)
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
+
+    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
+    chart_data = predict_data['distribution_channel', 'Prediction']
+    st.bar_chart(chart_data, x = 'distribution_channel', y ='Prediction')
+
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
 
