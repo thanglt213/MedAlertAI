@@ -114,8 +114,15 @@ if train_file and uploaded_file:
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
-    chart_data = predict_data['distribution_channel', 'Prediction']
-    st.bar_chart(chart_data, x = 'distribution_channel', y ='Prediction')
+    chart_data = predict_data[['distribution_channel', 'Prediction']]
+    # Đếm số lượng prediction theo distribution_channel
+    prediction_counts = chart_data.groupby(['distribution_channel', 'Prediction']).size().unstack(fill_value=0)
+
+    # Hiển thị dữ liệu cho biểu đồ
+    st.write(prediction_counts)
+
+    # Sử dụng st.bar_chart để vẽ biểu đồ
+    st.bar_chart(prediction_counts)
 
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
