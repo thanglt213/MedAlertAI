@@ -85,7 +85,7 @@ if train_file and uploaded_file:
         st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào. - dòng 89")
     else:
         # Khởi tạo mô hình Isolation Forest
-        model = IsolationForest(n_estimators=100, contamination=0.1, random_state=42)
+        model = IsolationForest(n_estimators=100, contamination=0.05, random_state=42)
 
         # Kiểm tra dữ liệu huấn luyện
         if train_data_encoded.isnull().values.any():
@@ -108,12 +108,13 @@ if train_file and uploaded_file:
     st.write("Kết quả dự đoán:")
     result_df = pd.DataFrame({'Prediction': predictions})
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Normal', -1: 'Anomaly'})
+    data['Prediction'] = result_df['Prediction']
     
     # Hiển thị bảng kết quả
-    st.write(result_df)
+    st.write(data)
 
     # Nút tải xuống file CSV kết quả
-    csv = result_df.to_csv(index=False)
+    csv = data.to_csv(index=False)
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
 else:
