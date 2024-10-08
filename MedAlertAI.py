@@ -6,6 +6,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler
 import os
 import numpy as np
+import plotly.express as px
 
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
@@ -127,21 +128,23 @@ if train_file and uploaded_file:
 
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện
     chart_data = predict_data[['hospital', 'Prediction']]
+
     # Đếm số lượng prediction theo hospital
     prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
 
-    # Hiển thị dữ liệu gốc
-    st.write("Dữ liệu gốc:", prediction_counts)
+    # Hiển thị dữ liệu để kiểm tra
+    st.write(prediction_counts)
 
-    # Xoay trục (transpose) để có hospital trên trục y
-    transposed_data = prediction_counts.T
+    # Tạo biểu đồ cột ngang với plotly
+    fig = px.bar(
+        prediction_counts, 
+        orientation='h',  # 'h' để tạo biểu đồ cột ngang
+        title="Số lượng dự đoán theo bệnh viện",
+        labels={"value": "Số lượng", "hospital": "Bệnh viện"}
+    )
 
-    # Hiển thị dữ liệu đã xoay trục
-    st.write("Dữ liệu đã xoay trục:", transposed_data)
-
-    # Sử dụng st.bar_chart để vẽ biểu đồ với dữ liệu đã xoay trục
-    st.bar_chart(transposed_data)
-
+    # Hiển thị biểu đồ với Streamlit
+    st.plotly_chart(fig)
 
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
