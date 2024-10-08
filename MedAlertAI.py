@@ -122,7 +122,7 @@ if train_file and uploaded_file:
     # Sắp xếp lại DataFrame theo thứ tự cột mong muốn
     # Thứ tự cột mong muốn
     desired_order = ['Prediction', 'branch', 'claim_no','distribution_channel','hospital']
-    st.write(predict_data[desired_order])
+    st.dataframe(predict_data[desired_order], use_container_width=True)
     
     # Thực hiện highlight
     #highlighted_data = highlight_rows(predict_data, 'Prediction', 'Bất thường', 'lightblue')
@@ -212,7 +212,9 @@ if train_file and uploaded_file:
     prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
 
     # Hiển thị dữ liệu để kiểm tra
-    st.write(prediction_counts)
+    #st.write(prediction_counts)
+    st.dataframe(prediction_counts, use_container_width=True)
+
 
     # Tạo biểu đồ cột ngang với plotly
     fig = px.bar(
@@ -246,7 +248,8 @@ if train_file and uploaded_file:
     prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=True)
     
     # Hiển thị dữ liệu để kiểm tra
-    st.write(prediction_percentage)
+    #st.write(prediction_percentage)
+    st.dataframe(prediction_percentage, use_container_width=True)
     
     # Tạo biểu đồ cột ngang với plotly và hiển thị tỷ lệ phần trăm
     fig = px.bar(
