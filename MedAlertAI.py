@@ -47,14 +47,14 @@ if train_file and uploaded_file:
     combined_data = pd.concat([train_data, predict_data], ignore_index=True)
 
     # Chuyển một số trường về kiểu numeric còn lại về dạng object
-    for column in combined_data.columns:
-        if column in ['days_to_report', 'requested_amount_per_day']:
-            try:
-                combined_data[column] = pd.to_numeric(combined_data[column])
-            except ValueError:
-                print(f"Không thể chuyển cột {column} thành kiểu số.")
-        else:
-            combined_data[column] = combined_data[column].astype(object)
+    combined_data = combined_data.astype('object')
+  
+    # Chọn các cột kiểu numeric
+    cols_to_numeric =  ['days_to_report', 'requested_amount_per_day']:
+
+    # Chuyển các cột trong danh sách về kiểu numeric
+    for col in cols_to_numeric:
+        combined_data[col] = pd.to_numeric(combined_data[col], errors='coerce')
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
