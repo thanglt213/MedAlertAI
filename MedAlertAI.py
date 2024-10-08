@@ -178,6 +178,43 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ với Streamlit
     st.plotly_chart(fig)
 
+    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh -------------------------------------------------------
+    st.markdown("#### **Theo chi nhánh:**")
+    chart_data = predict_data[['branch', 'Prediction']]
+
+    # Đếm số lượng prediction theo branch
+    prediction_counts = chart_data.groupby(['branch', 'Prediction']).size().unstack(fill_value=0)
+    
+    # Thêm cột tổng số lượng prediction theo từng chi nhánh để tính tỷ lệ phần trăm
+    prediction_counts['Total'] = prediction_counts.sum(axis=1)
+    
+    # Tính tỷ lệ phần trăm cho mỗi loại prediction
+    prediction_percentage = prediction_counts.div(prediction_counts['Total'], axis=0) * 100
+    
+    # Bỏ cột Total (vì không cần hiển thị tỷ lệ tổng)
+    prediction_percentage = prediction_percentage.drop(columns='Total')
+    
+    # Sắp xếp theo cột 'Bất thường' giảm dần (hoặc 'Bình thường' nếu muốn)
+    prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=False)
+    
+    # Hiển thị dữ liệu để kiểm tra
+    st.write(prediction_percentage)
+    
+    # Tạo biểu đồ cột ngang với plotly và hiển thị tỷ lệ phần trăm
+    fig = px.bar(
+        prediction_percentage,  # Sử dụng tỷ lệ phần trăm
+        x=prediction_percentage.columns,  # Trục x là các loại Prediction
+        y=prediction_percentage.index,  # Trục y là chi nhánh
+        orientation='h',  # 'h' để tạo biểu đồ cột ngang
+        title="Tỷ lệ hồ sơ dự đoán theo chi nhánh",
+        labels={"value": "Tỷ lệ %", "branch": "Chi nhánh"},
+        text_auto='.2f'  # Thêm nhãn tỷ lệ phần trăm với 2 chữ số thập phân
+    )
+    
+    # Hiển thị biểu đồ trong Streamlit
+    st.plotly_chart(fig)
+
+
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
 
