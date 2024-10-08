@@ -205,7 +205,7 @@ if train_file and uploaded_file:
         prediction_percentage,  # Sử dụng tỷ lệ phần trăm
         x=prediction_percentage.columns,  # Trục x là các loại Prediction
         y=prediction_percentage.index,  # Trục y là chi nhánh
-        orientation='v',  # 'h' để tạo biểu đồ cột ngang
+        #orientation='h',  # 'h' để tạo biểu đồ cột ngang
         title="Tỷ lệ hồ sơ dự đoán theo chi nhánh",
         labels={"value": "Tỷ lệ %", "branch": "Chi nhánh"},
         text_auto='.2f'  # Thêm nhãn tỷ lệ phần trăm với 2 chữ số thập phân
