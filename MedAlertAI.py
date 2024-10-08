@@ -80,7 +80,7 @@ if train_file and uploaded_file:
     predict_data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
 
     # Hiển thị dữ liệu sau mã hóa và chuẩn hóa
-    st.write("Dữ liệu sau mã hóa và chuẩn hóa:",predict_data_encoded.head())
+    #st.write("Dữ liệu sau mã hóa và chuẩn hóa:",predict_data_encoded.head())
 
     # Khởi tạo mô hình Isolation Forest
     model = IsolationForest(n_estimators=100, contamination=0.05, random_state=42)
