@@ -130,11 +130,17 @@ if train_file and uploaded_file:
     # Đếm số lượng prediction theo hospital
     prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
 
-    # Hiển thị dữ liệu cho biểu đồ
-    st.write(prediction_counts)
+    # Hiển thị dữ liệu gốc
+    st.write("Dữ liệu gốc:", prediction_counts)
 
-    # Sử dụng st.bar_chart để vẽ biểu đồ
-    st.bar_chart(prediction_counts)
+    # Xoay trục (transpose) để có hospital trên trục y
+    transposed_data = prediction_counts.T
+
+    # Hiển thị dữ liệu đã xoay trục
+    st.write("Dữ liệu đã xoay trục:", transposed_data)
+
+    # Sử dụng st.bar_chart để vẽ biểu đồ với dữ liệu đã xoay trục
+    st.bar_chart(transposed_data)
 
 
 else:
