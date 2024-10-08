@@ -10,6 +10,8 @@ import numpy as np
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 
+st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường")
+
 # Expander cho upload và hiển thị dữ liệu huấn luyện
 with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
     train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
