@@ -15,42 +15,19 @@ train_file = st.file_uploader("Upload your training data CSV file", type=["csv"]
 # Upload file CSV cho dữ liệu dự đoán
 uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"], key='data')
 
-def highlight_dataframe(dataframe, column_name, highlight_value, color='lightgreen'):
-    """
-    Tô màu các ô trong một cột dựa trên giá trị cụ thể. Các ô còn lại giữ kiểu hiển thị mặc định.
-
-    Parameters:
-    dataframe (pd.DataFrame): DataFrame cần tô màu.
-    column_name (str): Tên của cột chứa giá trị để tô màu.
-    highlight_value: Giá trị cần highlight (dùng để so sánh).
-    color (str): Màu cho các ô có giá trị bằng highlight_value.
-
-    Returns:
-    pd.io.formats.style.Styler: DataFrame đã được tô màu cho các ô cụ thể.
-    """
-    
-    # Áp dụng màu chỉ cho các ô trong cột được chỉ định
-    def highlight_cells(val):
-        return f'background-color: {color}' if val == highlight_value else ''
-    
-    # Áp dụng highlight_cells cho toàn bộ cột được chọn
-    return dataframe.style.applymap(highlight_cells, subset=[column_name])
-
 if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
-    st.write("Dữ liệu huấn luyện:")
+    st.write("Dữ liệu huấn luyện:", train_data.shape)
     st.write(train_data.head())
-    st.write("Shape của dữ liệu huấn luyện:", train_data.shape)
 
     # Lưu số dòng của dữ liệu huấn luyện
     num_train_rows = train_data.shape[0]
 
     # Đọc dữ liệu dự đoán
     data = pd.read_csv(uploaded_file)
-    st.write("Dữ liệu dự đoán:")
+    st.write("Dữ liệu dự đoán:", data.shape)
     st.write(data.head())
-    st.write("Shape của dữ liệu dự đoán:", data.shape)
 
     # Thêm cột 'is_train' để đánh dấu tập dữ liệu huấn luyện và dự đoán
     train_data['is_train'] = 1
@@ -59,10 +36,6 @@ if train_file and uploaded_file:
     # Gộp train_data và data
     combined_data = pd.concat([train_data, data], ignore_index=True)
     st.write("Shape của combined_data sau khi gộp:", combined_data.shape)
-
-    # Hiển thị dữ liệu sau khi gộp
-    st.write("Dữ liệu sau khi gộp:")
-    st.write(combined_data.head())
 
     # Kiểm tra các cột rỗng trước khi xử lý NaN
     st.write("Số lượng giá trị NaN trong từng cột trước khi xử lý:")
@@ -81,9 +54,6 @@ if train_file and uploaded_file:
     st.write("Dữ liệu sau chuyển đổi kiểu:")
     st.write(combined_data.head())
 
-    combined_data = combined_data.dropna()
-    st.write("Shape của combined_data sau khi xử lý NaN - dòng 70:", combined_data.shape)
-
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
     for column in combined_data.columns:
@@ -98,9 +68,6 @@ if train_file and uploaded_file:
     # Tách lại dữ liệu huấn luyện và dữ liệu dự đoán dựa trên số dòng đã lưu
     train_data_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
     data_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
-
-    # Kiểm tra hình dạng dữ liệu huấn luyện
-    st.write("Shape của train_data_encoded - dòng 86:", train_data_encoded.shape)
 
     if train_data_encoded.shape[0] == 0:
         st.error("Dữ liệu huấn luyện trống. Vui lòng kiểm tra lại dữ liệu đầu vào. - dòng 89")
@@ -131,9 +98,8 @@ if train_file and uploaded_file:
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Bình thường', -1: 'Bất thường'})
     data['Prediction'] = result_df['Prediction']
     
-    # Hiển thị DataFrame có thể chỉnh sửa bằng st.data_editor
-    edited_df = st.data_editor(data, num_rows="dynamic")
-    st.dataframe(edited_df)
+    # Hiển thị DataFrame 
+    st.dataframe(data)
     
     # Nút tải xuống file CSV kết quả
     csv = data.to_csv(index=False)
