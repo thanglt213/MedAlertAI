@@ -48,13 +48,13 @@ if train_file and uploaded_file:
 
     # Chuyển một số trường về kiểu numeric còn lại về dạng object
     for column in combined_data.columns:
-      if column in ['group','days_to_report', 'requested_amount_per_day']:
-        try:
-          combined_data[column] = pd.to_numeric(combined_data[column])
-        except ValueError:
-          print(f"Không thể chuyển cột {column} thành kiểu số.")
-      else:
-        combined_data[column] = combined_data[column].astype(object)
+        if column in ['group','days_to_report', 'requested_amount_per_day']:
+            try:
+                combined_data[column] = pd.to_numeric(combined_data[column])
+            except ValueError:
+                print(f"Không thể chuyển cột {column} thành kiểu số.")
+        else:
+            combined_data[column] = combined_data[column].astype(object)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
