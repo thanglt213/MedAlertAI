@@ -46,7 +46,7 @@ if train_file and uploaded_file:
     # Gộp train_data và predict_data
     combined_data = pd.concat([train_data, predict_data], ignore_index=True)
 
-    # Chuyển một số trường về kiểu numeric còn lại về dạng object
+    # Chuyển một số trường về kiểu numeric còn lại về dạng string
     combined_data = combined_data.astype('str')
   
     # Chọn các cột kiểu numeric
