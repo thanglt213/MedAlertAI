@@ -101,16 +101,16 @@ if train_file and uploaded_file:
     predict_data['Prediction'] = result_df['Prediction']
     
     # Hiển thị DataFrame 
+    st.write("Kết quả dự đoán:", predict_data)
+    
     # Thực hiện highlight
-    highlighted_data = highlight_rows(predict_data, 'Prediction', 'Bất thường', 'lightblue')
-
+    #highlighted_data = highlight_rows(predict_data, 'Prediction', 'Bất thường', 'lightblue')
     # Hiển thị dataframe với highlight
-    st.dataframe(highlighted_data)
+    #st.dataframe(highlighted_data)
     
     # Nút tải xuống file CSV kết quả
     csv = predict_data.to_csv(index=False)
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
-
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
 
