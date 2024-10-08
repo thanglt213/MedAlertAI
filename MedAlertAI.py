@@ -48,7 +48,7 @@ if train_file and uploaded_file:
 
     # Chuyển một số trường về kiểu numeric còn lại về dạng object
     for column in combined_data.columns:
-        if column in ['group','days_to_report', 'requested_amount_per_day']:
+        if column in ['days_to_report', 'requested_amount_per_day']:
             try:
                 combined_data[column] = pd.to_numeric(combined_data[column])
             except ValueError:
