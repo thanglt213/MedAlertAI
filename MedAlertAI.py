@@ -126,19 +126,13 @@ if train_file and uploaded_file:
     st.write("Dự đoán:")
     predictions = model.predict(data_encoded)
 
-    # Hiển thị kết quả dự đoán
-    st.write("Kết quả dự đoán:")
+    # Update kết quả dự đoán vào dữ liệu gốc
     result_df = pd.DataFrame({'Prediction': predictions})
-    result_df['Prediction'] = result_df['Prediction'].replace({1: 'Normal', -1: 'Anomaly'})
+    result_df['Prediction'] = result_df['Prediction'].replace({1: 'Bình thường', -1: 'Bất thường'})
     data['Prediction'] = result_df['Prediction']
-    st.write("Kết quả dự đoán--------------:", data['Prediction'])
     
-    # Hiển thị bảng kết quả
     # Hiển thị DataFrame có thể chỉnh sửa bằng st.data_editor
     edited_df = st.data_editor(data, num_rows="dynamic")
-
-    # Hiển thị DataFrame đã được người dùng thao tác
-    st.write("Dữ liệu sau khi thao tác:")
     st.dataframe(edited_df)
     
     # Nút tải xuống file CSV kết quả
