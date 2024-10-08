@@ -11,7 +11,7 @@ import plotly.express as px
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 
-st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường", icon="ℹ️")
+st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
 # Expander cho upload và hiển thị dữ liệu huấn luyện
 with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
@@ -19,6 +19,7 @@ with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
     if train_file is not None:
         train_data = pd.read_csv(train_file)
         train_data = train_data.dropna()
+        train_data = train_data.astype('str')
         st.write("Dữ liệu huấn luyện:", train_data.head())
 
 # Expander cho upload và hiển thị dữ liệu dự đoán
@@ -27,6 +28,7 @@ with st.expander("Tải và xem file dữ liệu cần tìm bất thường - CS
     if uploaded_file is not None:
         predict_data = pd.read_csv(uploaded_file)
         predict_data = predict_data.dropna()
+        predict_data = predict_data.astype('str')
         st.write("Dữ liệu cần tìm bất thường:", predict_data.head())
 
 # Hàm highlight các dòng
