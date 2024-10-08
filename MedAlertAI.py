@@ -151,7 +151,8 @@ if train_file and uploaded_file:
     prediction_counts = prediction_counts.drop(columns='Total')
     
     # Hiển thị dữ liệu cho biểu đồ
-    st.write(prediction_counts)
+    #st.write(prediction_counts)
+    st.dataframe(prediction_counts, use_container_width=True)
     
     # Tạo biểu đồ cột sử dụng Plotly
     fig = px.bar(prediction_counts.reset_index(), 
@@ -185,7 +186,8 @@ if train_file and uploaded_file:
     prediction_counts = prediction_counts.sort_values(by='Bất thường %', ascending=False)
     
     # Hiển thị dữ liệu cho biểu đồ
-    st.write(prediction_counts[['Bất thường %']])
+    #st.write(prediction_counts[['Bất thường %']])
+    st.dataframe(prediction_counts, use_container_width=True)
     
     # Định dạng nhãn tỷ lệ % với dấu phần trăm
     prediction_counts['Bất thường % Text'] = prediction_counts['Bất thường %'].map('{:.2f}%'.format)
