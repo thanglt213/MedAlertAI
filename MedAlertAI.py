@@ -137,8 +137,8 @@ if train_file and uploaded_file:
     #st.write(data)
 
     # Gọi hàm để tô màu DataFrame dựa vào cột 'prediction' và highlight giá trị 1
-    styled_data = highlight_dataframe(data, 'Prediction', 'Anomaly', color = 'lightblue')
-    st.dataframe(styled_data)
+    #styled_data = highlight_dataframe(data, 'Prediction', 'Anomaly', color = 'lightblue')
+    #st.dataframe(styled_data)
     
     # Nút tải xuống file CSV kết quả
     csv = data.to_csv(index=False)
