@@ -16,6 +16,13 @@ train_file = st.file_uploader("Upload your training data CSV file", type=["csv"]
 # Upload file CSV cho dữ liệu dự đoán
 uploaded_file = st.file_uploader("Upload your input data CSV file", type=["csv"], key='data')
 
+# Hàm highlight các dòng
+def highlight_rows(df, column, value, color):
+    def highlight_condition(row):
+        return [f'background-color: {color}' if row[column] == value else '' for _ in row]
+
+    return df.style.apply(highlight_condition, axis=1)
+
 if train_file and uploaded_file:
     # Đọc dữ liệu huấn luyện
     train_data = pd.read_csv(train_file)
@@ -96,7 +103,11 @@ if train_file and uploaded_file:
     data['Prediction'] = result_df['Prediction']
     
     # Hiển thị DataFrame 
-    st.dataframe(data)
+    # Thực hiện highlight
+    highlighted_data = highlight_rows(data, 'Prediction', 'Bất thường', 'lightblue')
+
+    # Hiển thị dataframe với highlight
+    st.dataframe(highlighted_data)
     
     # Nút tải xuống file CSV kết quả
     csv = data.to_csv(index=False)
