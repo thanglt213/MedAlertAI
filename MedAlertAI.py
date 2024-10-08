@@ -134,27 +134,37 @@ if train_file and uploaded_file:
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
     st.markdown("## 3. Trực quan hóa kết quả dự đoán")
-    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác --------------------------------------------------
+    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
     st.markdown("#### **Kênh khai thác:**")
     
+    # Lấy dữ liệu liên quan đến distribution_channel và Prediction
     chart_data = predict_data[['distribution_channel', 'Prediction']]
+    
     # Đếm số lượng prediction theo distribution_channel
     prediction_counts = chart_data.groupby(['distribution_channel', 'Prediction']).size().unstack(fill_value=0)
-
+    
+    # Tính tổng số lượng hồ sơ cho từng distribution_channel và sắp xếp giảm dần
+    prediction_counts['Total'] = prediction_counts.sum(axis=1)
+    prediction_counts = prediction_counts.sort_values(by='Total', ascending=False)
+    
+    # Xóa cột 'Total' để không hiển thị trong biểu đồ
+    prediction_counts = prediction_counts.drop(columns='Total')
+    
     # Hiển thị dữ liệu cho biểu đồ
     st.write(prediction_counts)
-
-    # Tạo biểu đồ cột sử dụng Plotly 
+    
+    # Tạo biểu đồ cột sử dụng Plotly
     fig = px.bar(prediction_counts.reset_index(), 
-             x='distribution_channel', 
-             y=prediction_counts.columns, 
-             title='Số lượng hồ sơ bồi thường theo kênh khai thác',
-             labels={'value': '', 'distribution_channel': ''},
-             text_auto=True,  # Thêm nhãn số lượng trên mỗi thanh
-             barmode='stack')
-
+                 x='distribution_channel', 
+                 y=prediction_counts.columns,  # Các cột tương ứng với giá trị Prediction
+                 title='Số lượng hồ sơ bồi thường theo kênh khai thác (sắp xếp giảm dần)',
+                 labels={'value': '', 'distribution_channel': 'Kênh khai thác'},
+                 text_auto=True,  # Thêm nhãn số lượng trên mỗi thanh
+                 barmode='stack')  # Biểu đồ stack bar
+    
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
+        
 
     # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện -------------------------------------------------------
     st.markdown("#### **Theo bệnh viện:**")
