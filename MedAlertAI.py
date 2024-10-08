@@ -116,7 +116,7 @@ if train_file and uploaded_file:
     #result_line = f"{count_bat_thuong}/{total_count}"
 
     # Hiển thị kết quả trên Streamlit
-    st.write("Bất thường/Tổng:", f"{count_bat_thuong}/{total_count}")
+    st.write("Bất thường: ", f"{count_bat_thuong}/{total_count}")
 
     # Hiển thị DataFrame 
     # Sắp xếp lại DataFrame theo thứ tự cột mong muốn
