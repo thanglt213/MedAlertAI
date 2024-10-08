@@ -105,7 +105,19 @@ if train_file and uploaded_file:
     result_df = pd.DataFrame({'Prediction': predictions})
     result_df['Prediction'] = result_df['Prediction'].replace({1: 'Bình thường', -1: 'Bất thường'})
     predict_data['Prediction'] = result_df['Prediction']
-    
+
+    # Đếm số dòng có 'Prediction' == 'Bất thường'
+    count_bat_thuong = len(predict_data[predict_data['Prediction'] == 'Bất thường'])
+
+    # Đếm tổng số dòng
+    total_count = len(predict_data)
+
+    # Tạo dòng kết quả
+    #result_line = f"{count_bat_thuong}/{total_count}"
+
+    # Hiển thị kết quả trên Streamlit
+    st.write("Bất thường/Tổng:", f"{count_bat_thuong}/{total_count}")
+
     # Hiển thị DataFrame 
     # Sắp xếp lại DataFrame theo thứ tự cột mong muốn
     # Thứ tự cột mong muốn
