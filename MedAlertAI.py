@@ -46,13 +46,15 @@ if train_file and uploaded_file:
     # Gộp train_data và predict_data
     combined_data = pd.concat([train_data, predict_data], ignore_index=True)
 
-    # Chuyển tất cả các cột thành kiểu chuỗi
-    for col in combined_data.columns:
-        combined_data[col] = combined_data[col].astype(str)
-
-    # Chuyển đổi các trường cụ thể thành kiểu số
-    numeric_columns = ['days_to_report', 'requested_amount_per_day']
-    combined_data[numeric_columns] = combined_data[numeric_columns].apply(pd.to_numeric, errors='coerce')
+    # Chuyển một số trường về kiểu numeric còn lại về dạng object
+    for column in combined_data.columns:
+      if column in ['group','days_to_report', 'requested_amount_per_day']:
+        try:
+          combined_data[column] = pd.to_numeric(combined_data[column])
+        except ValueError:
+          print(f"Không thể chuyển cột {column} thành kiểu số.")
+      else:
+        combined_data[column] = combined_data[column].astype(object)
 
     # Mã hóa các cột phân loại trong combined_data
     label_encoders = {}
