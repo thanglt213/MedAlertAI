@@ -178,7 +178,7 @@ if train_file and uploaded_file:
     fig = px.bar(prediction_counts.reset_index(), 
                  x='distribution_channel', 
                  y=prediction_counts.columns,  # Các cột tương ứng với giá trị Prediction
-                 title='Số lượng hồ sơ bồi thường theo kênh khai thác (sắp xếp giảm dần)',
+                 title='Số lượng hồ sơ bồi thường theo kênh khai thác',
                  labels={'value': '', 'distribution_channel': 'Kênh khai thác'},
                  text_auto=True,  # Thêm nhãn số lượng trên mỗi thanh
                  barmode='stack')  # Biểu đồ stack bar
@@ -188,7 +188,6 @@ if train_file and uploaded_file:
 
     # -------------------------------- Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
     # Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
-    st.markdown("#### **Kênh khai thác (Tỷ lệ % bất thường):**")
     
     # Lấy dữ liệu liên quan đến distribution_channel và Prediction
     chart_data = predict_data[['distribution_channel', 'Prediction']]
@@ -205,9 +204,6 @@ if train_file and uploaded_file:
     # Sắp xếp theo tỷ lệ % bất thường giảm dần
     prediction_counts = prediction_counts.sort_values(by='Bất thường %', ascending=False)
     
-    # Hiển thị dữ liệu cho biểu đồ
-    st.dataframe(prediction_counts, use_container_width=True)
-    
     # Định dạng nhãn tỷ lệ % với dấu phần trăm
     prediction_counts['Bất thường % Text'] = prediction_counts['Bất thường %'].map('{:.2f}%'.format)
     
@@ -223,30 +219,40 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
 
-    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện 
-    st.markdown("#### **Theo bệnh viện:**")
-    chart_data = predict_data[['hospital', 'Prediction']]
-
-    # Đếm số lượng prediction theo hospital
-    prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
-
-    # Hiển thị dữ liệu để kiểm tra
-    st.markdown("###### Số lượng hồ sơ qua bệnh viện:")
+    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh
+    st.markdown("#### **Chi nhánh:**")
+    
+    # Lấy dữ liệu liên quan đến branch và Prediction
+    chart_data = predict_data[predict_data['Prediction'] == 'Bất thường'][['branch', 'Prediction']]
+    
+    # Đếm số lượng prediction theo branch
+    prediction_counts = chart_data.groupby(['branch', 'Prediction']).size().unstack(fill_value=0)
+    
+    # Tính tổng số lượng hồ sơ cho từng branch và sắp xếp giảm dần
+    prediction_counts['Total'] = prediction_counts.sum(axis=1)
+    prediction_counts = prediction_counts.sort_values(by='Total', ascending=False)
+    
+    # Xóa cột 'Total' để không hiển thị trong biểu đồ
+    prediction_counts = prediction_counts.drop(columns='Total')
+    
+    # Hiển thị dữ liệu cho biểu đồ
+    st.markdown("###### Số lượng hồ sơ qua chi nhánh:")
     st.dataframe(prediction_counts, use_container_width=True)
-
-    # Tạo biểu đồ cột ngang với plotly
-    fig = px.bar(
-        prediction_counts, 
-        orientation='h',  # 'h' để tạo biểu đồ cột ngang
-        title="Số lượng hồ sơ dự đoán theo bệnh viện",
-        labels={"value": "", "hospital": ""},
-        text_auto=True  # Thêm nhãn số lượng trên mỗi thanh
-    )
-
-    # Hiển thị biểu đồ với Streamlit
+    
+    # Tạo biểu đồ cột sử dụng Plotly
+    fig = px.bar(prediction_counts.reset_index(), 
+                 x='distribution_channel', 
+                 y=prediction_counts.columns,  # Các cột tương ứng với giá trị Prediction
+                 title='Số lượng hồ sơ bồi thường qua chi nhánh',
+                 labels={'value': '', 'branch': 'Chi nhánh'},
+                 text_auto=True,  # Thêm nhãn số lượng trên mỗi thanh
+                 barmode='stack')  # Biểu đồ stack bar
+    
+    # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
 
-    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh 
+        
+    # -------------------------------- Biểu đồ thể hiện tỷ lệ số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh 
     st.markdown("#### **Theo chi nhánh:**")
     chart_data = predict_data[['branch', 'Prediction']]
 
@@ -285,7 +291,31 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
 
+    
+    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện 
+    st.markdown("#### **Theo bệnh viện:**")
+    chart_data = predict_data[['hospital', 'Prediction']]
 
+    # Đếm số lượng prediction theo hospital
+    prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
+
+    # Hiển thị dữ liệu để kiểm tra
+    st.markdown("###### Số lượng hồ sơ qua bệnh viện:")
+    st.dataframe(prediction_counts, use_container_width=True)
+
+    # Tạo biểu đồ cột ngang với plotly
+    fig = px.bar(
+        prediction_counts, 
+        orientation='h',  # 'h' để tạo biểu đồ cột ngang
+        title="Số lượng hồ sơ dự đoán theo bệnh viện",
+        labels={"value": "", "hospital": ""},
+        text_auto=True  # Thêm nhãn số lượng trên mỗi thanh
+    )
+
+    # Hiển thị biểu đồ với Streamlit
+    st.plotly_chart(fig)
+
+   
 else:
     st.warning("Vui lòng tải lên cả hai tệp dữ liệu huấn luyện và dữ liệu dự đoán.")
 
