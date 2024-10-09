@@ -112,13 +112,13 @@ if train_file and predict_file:
             # Hỏi người dùng có muốn huấn luyện lại không
             st.markdown("**File mô hình đã tồn tại. Bạn có muốn huấn luyện lại không?**")
             col1, col2 = st.columns(2)
-            with col1:
+            with col2:
                 if st.button("Huấn luyện lại"):
                     with st.spinner('Đang huấn luyện mô hình...'):
                         model = train_isolation_forest(train_encoded)
                     st.success("Mô hình đã được huấn luyện thành công!")
                     joblib.dump(model, model_file)  # Lưu mô hình
-            with col2:
+            with col1:
                 if st.button("Tải mô hình"):
                     with st.spinner('Đang tải mô hình...'):
                         model = joblib.load(model_file)
