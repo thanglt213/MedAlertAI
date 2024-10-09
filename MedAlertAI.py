@@ -8,6 +8,18 @@ import numpy as np
 import plotly.express as px
 from PIL import Image
 
+# Thêm CSS cho khung container
+st.markdown("""
+    <style>
+    .custom-container {
+        border: 2px solid #0072B1; /* Màu viền */
+        border-radius: 5px; /* Bo góc */
+        padding: 15px; /* Khoảng cách bên trong */
+        margin: 10px 0; /* Khoảng cách bên ngoài */
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Hàm tải và xử lý ảnh
 def display_resized_image(image_path, new_height_divider=2):
     image = Image.open(image_path)
@@ -110,7 +122,7 @@ if train_file and predict_file:
 
         if model_exists:
             with st.container():
-                # Hỏi người dùng có muốn huấn luyện lại không
+                st.markdown('<div class="custom-container">', unsafe_allow_html=True)
                 col0, col1, col2 = st.columns(3)
                 with col0:
                     st.markdown("**File mô hình đã tồn tại.**")
