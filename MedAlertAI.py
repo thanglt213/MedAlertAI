@@ -43,7 +43,7 @@ def train_isolation_forest(train_data, contamination_rate=0.05):
     model = IsolationForest(n_estimators=100, contamination=contamination_rate, random_state=42)
     model.fit(train_data.select_dtypes(include=[np.number]))  # Chỉ sử dụng các cột số để huấn luyện
     return model
-
+'''
 # Hàm hiển thị biểu đồ theo số lượng
 def plot_prediction_chart(data, group_by_col, title, ylabel, key):
     chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
@@ -52,6 +52,30 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
     
     fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
     st.plotly_chart(fig, key=key)
+'''
+
+# Hàm hiển thị biểu đồ stacked bar
+def plot_prediction_chart(data, group_by_col, title, ylabel, key):
+    # Nhóm dữ liệu theo group_by_col và Prediction
+    prediction_counts = data.groupby([group_by_col, 'Prediction']).size().reset_index(name='Count')
+    
+    # Sắp xếp dữ liệu
+    prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
+    
+    # Tạo biểu đồ stacked bar
+    fig = px.bar(
+        prediction_counts, 
+        x=group_by_col, 
+        y='Count', 
+        color='Prediction',  # Sử dụng cột 'Prediction' để tạo màu sắc cho từng nhóm
+        title=title, 
+        labels={group_by_col: ylabel}, 
+        text_auto=True
+    )
+    
+    # Hiển thị biểu đồ trong Streamlit
+    st.plotly_chart(fig, key=key)
+
 
 # Hàm hiển thị biểu đồ tỷ lệ phần trăm
 def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
