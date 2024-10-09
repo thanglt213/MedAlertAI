@@ -59,7 +59,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
     prediction_counts = data.groupby(group_by_col)['Prediction'].value_counts(normalize=True).unstack().fillna(0)
     
     # Chỉ giữ lại tỷ lệ phần trăm cho "Bất thường"
-    prediction_counts['Bất thường'] = prediction_counts.get('Bất thường', 0)
+    prediction_counts['Bất thường'] = prediction_counts.get('Bất thường', 0) *100
     
     # Chuyển đổi thành DataFrame cho dễ xử lý
     prediction_counts = prediction_counts.reset_index()
