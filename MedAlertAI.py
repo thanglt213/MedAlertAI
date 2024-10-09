@@ -50,8 +50,8 @@ def plot_prediction_chart(data, group_by_col, title, ylabel):
     prediction_counts = chart_data.groupby(group_by_col).size().reset_index(name='Count')
     
     # Tính tổng số lượng hồ sơ cho từng branch và sắp xếp giảm dần
-    prediction_counts['Total'] = prediction_counts.sum(axis=1)
-    prediction_counts = prediction_counts.sort_values(by='Total', ascending=False)
+    #prediction_counts['Total'] = prediction_counts.sum(axis=1)
+    #prediction_counts = prediction_counts.sort_values(by='Total', ascending=False)
     
     fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
     st.plotly_chart(fig)
