@@ -152,7 +152,6 @@ if train_file and predict_file:
 
             with st.expander("Trực quan hóa kết quả...", expanded=True):
                 # Biểu đồ
-                st.markdown("### Trực quan hóa kết quả")
                 plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác:', 'Kênh khai thác', key='key1')
                 plot_prediction_percent_chart(predict_data, 'distribution_channel', 'Tỷ lệ % bất thường theo kênh khai thác:', 'Kênh khai thác', key='key2')
               
