@@ -110,10 +110,9 @@ if train_file and predict_file:
 
         if model_exists:
             # Hỏi người dùng có muốn huấn luyện lại không
-            st.markdown("**File mô hình đã tồn tại. Bạn có muốn huấn luyện lại không?**")
             col0, col1, col2 = st.columns(3)
             with col0:
-                st.markdown("**File mô hình đã tồn tại. Bạn muốn?**")
+                st.markdown("**File mô hình đã tồn tại.**")
             with col1:
                 if st.button("Tải mô hình"):
                     with st.spinner('Đang tải mô hình...'):
