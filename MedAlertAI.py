@@ -241,7 +241,7 @@ if train_file and uploaded_file:
     
     # Tạo biểu đồ cột sử dụng Plotly
     fig = px.bar(prediction_counts.reset_index(), 
-                 x='distribution_channel', 
+                 x='branch', 
                  y=prediction_counts.columns,  # Các cột tương ứng với giá trị Prediction
                  title='Số lượng hồ sơ bồi thường qua chi nhánh',
                  labels={'value': '', 'branch': 'Chi nhánh'},
