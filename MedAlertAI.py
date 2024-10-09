@@ -52,11 +52,8 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
     prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
     
     fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
-    st.plotly_chart(fig)
-    
-    # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig, key=key)
-
+    
 
 # Main Streamlit app
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
