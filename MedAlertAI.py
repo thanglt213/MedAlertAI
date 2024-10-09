@@ -29,7 +29,7 @@ new_size = (width, new_height)
 resized_image = image.resize(new_size)
 
 # Hiển thị ảnh đã được thu nhỏ trong Streamlit
-st.image(resized_image, caption="Hình ảnh ICA đã được co theo chiều dọc", use_column_width=True)
+st.image(resized_image, caption=" ", use_column_width=True)
 
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
