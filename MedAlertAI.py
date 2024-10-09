@@ -43,16 +43,6 @@ def train_isolation_forest(train_data, contamination_rate=0.05):
     model = IsolationForest(n_estimators=100, contamination=contamination_rate, random_state=42)
     model.fit(train_data.select_dtypes(include=[np.number]))  # Chỉ sử dụng các cột số để huấn luyện
     return model
-'''
-# Hàm hiển thị biểu đồ theo số lượng
-def plot_prediction_chart(data, group_by_col, title, ylabel, key):
-    chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
-    prediction_counts = chart_data.groupby(group_by_col).size().reset_index(name='Count')
-    prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
-    
-    fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
-    st.plotly_chart(fig, key=key)
-'''
 
 # Hàm hiển thị biểu đồ stacked bar
 def plot_prediction_chart(data, group_by_col, title, ylabel, key):
