@@ -18,8 +18,18 @@ image_path = "ica.jpg"
 # Mở file ảnh
 image = Image.open(image_path)
 
-# Hiển thị ảnh trong Streamlit
-st.image(image, caption=" ", width=200, height=100)
+# Lấy kích thước gốc của ảnh
+width, height = image.size
+
+# Tính toán chiều cao mới (1/3 chiều cao ban đầu), giữ nguyên chiều rộng
+new_height = height // 3
+new_size = (width, new_height)
+
+# Resize ảnh
+resized_image = image.resize(new_size)
+
+# Hiển thị ảnh đã được thu nhỏ trong Streamlit
+st.image(resized_image, caption="Hình ảnh ICA đã được co theo chiều dọc", use_column_width=True)
 
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
