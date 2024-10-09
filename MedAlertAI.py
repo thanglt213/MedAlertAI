@@ -11,6 +11,15 @@ import plotly.express as px
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 
+# Đường dẫn tới file ảnh
+image_path = "ica.jpg"
+
+# Mở file ảnh
+image = Image.open(image_path)
+
+# Hiển thị ảnh trong Streamlit
+st.image(image, caption="", use_column_width=True)
+
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
 st.markdown("## 1. Tải dữ liệu huấn luyện và dự đoán")
