@@ -80,14 +80,14 @@ st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức 
 display_resized_image("ica.jpg")
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
-# Tải dữ liệu huấn luyện và dự đoán
-st.markdown("### Tải dữ liệu, huấn luyện và dự đoán")
-train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
-predict_file = st.file_uploader("Chọn file CSV dự đoán", type=["csv"], key='predict')
-
 # Kiểm tra tệp mô hình
 model_file = 'isolation_forest_model.pkl'
 model_exists = os.path.exists(model_file)
+
+# Tải dữ liệu huấn luyện và dự đoán
+with st.container("Tải dữ liệu huấn luyện và dự đoán", expanded=True):
+    train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
+    predict_file = st.file_uploader("Chọn file CSV dự đoán", type=["csv"], key='predict')
 
 if train_file and predict_file:
     try:
