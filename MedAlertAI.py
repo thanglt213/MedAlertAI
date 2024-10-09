@@ -85,7 +85,7 @@ model_file = 'isolation_forest_model.pkl'
 model_exists = os.path.exists(model_file)
 
 # Tải dữ liệu huấn luyện và dự đoán
-with st.container("Tải dữ liệu huấn luyện và dự đoán", expanded=True):
+with st.expander("Tải dữ liệu huấn luyện và dự đoán", expanded=True):
     train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
     predict_file = st.file_uploader("Chọn file CSV dự đoán", type=["csv"], key='predict')
 
