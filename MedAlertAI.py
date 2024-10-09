@@ -41,7 +41,7 @@ with st.expander("Tải và xem file dữ liệu huấn luyện - CSV file"):
         train_data = pd.read_csv(train_file)
         train_data = train_data.dropna()
         train_data = train_data.astype('str')
-        st.write("Dữ liệu huấn luyện:", train_data.head())
+        #st.write("Dữ liệu huấn luyện:", train_data.head())
 
 # Expander cho upload và hiển thị dữ liệu dự đoán
 with st.expander("Tải và xem file dữ liệu cần tìm bất thường - CSV file"):
