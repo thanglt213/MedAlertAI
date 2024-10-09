@@ -171,7 +171,7 @@ if train_file and uploaded_file:
     prediction_counts = prediction_counts.drop(columns='Total')
     
     # Hiển thị dữ liệu cho biểu đồ
-    st.markdown("###### Số lượng hồ sơ qua kênh khai thác:**")
+    st.markdown("###### Số lượng hồ sơ qua kênh khai thác:")
     st.dataframe(prediction_counts, use_container_width=True)
     
     # Tạo biểu đồ cột sử dụng Plotly
@@ -231,6 +231,7 @@ if train_file and uploaded_file:
     prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
 
     # Hiển thị dữ liệu để kiểm tra
+    st.markdown("###### Số lượng hồ sơ qua bệnh viện:")
     st.dataframe(prediction_counts, use_container_width=True)
 
     # Tạo biểu đồ cột ngang với plotly
