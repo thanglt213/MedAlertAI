@@ -79,30 +79,6 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
     st.plotly_chart(fig, key=key)
 
 
-'''
-# Hàm hiển thị biểu đồ tỷ lệ phần trăm
-def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
-    chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
-    
-    prediction_counts = (chart_data
-                         .groupby(group_by_col)
-                         .size()
-                         .reset_index(name='Count')
-                         .sort_values(by='Count', ascending=False))
-    
-    total_count = prediction_counts['Count'].sum()
-    prediction_counts['Percentage'] = (prediction_counts['Count'] / total_count) * 100
-    
-    fig = px.bar(prediction_counts, 
-                 x=group_by_col, 
-                 y='Percentage',
-                 title=title, 
-                 labels={group_by_col: ylabel, 'Percentage': 'Tỷ lệ phần trăm'}, 
-                 text=prediction_counts['Percentage'].map('{:.1f}%'.format))
-    
-    st.plotly_chart(fig, key=key)
-'''
-
 # Main Streamlit app
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
 display_resized_image("ica.jpg")
