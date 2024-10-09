@@ -55,6 +55,33 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
 
 # Hàm hiển thị biểu đồ tỷ lệ phần trăm
 def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
+    # Nhóm dữ liệu theo group_by_col và tính tỷ lệ bất thường
+    prediction_counts = data.groupby(group_by_col)['Prediction'].value_counts(normalize=True).unstack().fillna(0)
+    
+    # Chỉ giữ lại tỷ lệ phần trăm cho "Bất thường"
+    prediction_counts['Bất thường'] = prediction_counts.get('Bất thường', 0)
+    
+    # Chuyển đổi thành DataFrame cho dễ xử lý
+    prediction_counts = prediction_counts.reset_index()
+    
+    # Sắp xếp theo tỷ lệ phần trăm "Bất thường" giảm dần
+    prediction_counts = prediction_counts.sort_values(by='Bất thường', ascending=False)
+
+    # Tạo biểu đồ cột theo tỷ lệ phần trăm
+    fig = px.bar(prediction_counts, 
+                 x=group_by_col, 
+                 y='Bất thường',
+                 title=title, 
+                 labels={group_by_col: ylabel, 'Bất thường': 'Tỷ lệ phần trăm'}, 
+                 text=prediction_counts['Bất thường'].map('{:.1f}%'.format))  # Định dạng nhãn phần trăm
+    
+    # Hiển thị biểu đồ trong Streamlit với key duy nhất
+    st.plotly_chart(fig, key=key)
+
+
+'''
+# Hàm hiển thị biểu đồ tỷ lệ phần trăm
+def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
     chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
     
     prediction_counts = (chart_data
@@ -74,6 +101,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
                  text=prediction_counts['Percentage'].map('{:.1f}%'.format))
     
     st.plotly_chart(fig, key=key)
+'''
 
 # Main Streamlit app
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
