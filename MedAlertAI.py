@@ -44,26 +44,15 @@ def train_isolation_forest(train_data, contamination_rate=0.05):
     model.fit(train_data.select_dtypes(include=[np.number]))  # Chỉ sử dụng các cột số để huấn luyện
     return model
 
-# Hàm hiển thị biểu đồ với chú thích rõ ràng, xử lý dữ liệu đã lọc và sắp xếp theo thứ tự giảm dần
+# Hàm hiển thị biểu đồ
 def plot_prediction_chart(data, group_by_col, title, ylabel):
-    # Nhóm và đếm số lần xuất hiện của các giá trị bất thường theo group_by_col
-    prediction_counts = data.groupby(group_by_col).size().reset_index(name='Count')
-    
+    chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
+    prediction_counts = chart_data.groupby(group_by_col).size().reset_index(name='Count')
     # Sắp xếp theo Count giảm dần
     prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
     
-    # Trực quan hóa biểu đồ dạng cột
-    fig = px.bar(prediction_counts, x=group_by_col, y='Count', 
-                 title=title, labels={group_by_col: ylabel, 'Count': 'Số lượng Bất thường'})
-    
-    # Tùy chỉnh thêm biểu đồ (nếu cần)
-    fig.update_layout(
-        xaxis_title=ylabel,
-        yaxis_title='Số lượng Bất thường',
-        title_font_size=16,
-        template='plotly_white',
-        text_auto=True
-    )
+    fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
+    st.plotly_chart(fig)
     
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
