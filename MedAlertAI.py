@@ -109,7 +109,7 @@ if train_file and predict_file:
         model = None  # Khởi tạo biến mô hình
 
         if model_exists:
-            with st.expander("Tùy chọn mô hình", expanded=True):
+            with st.expander("Huấn luyện và tải mô hình", expanded=True):
                 with st.container():
                     col0, col1, col2 = st.columns(3)
                     with col0:
