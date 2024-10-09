@@ -69,8 +69,8 @@ if train_file and predict_file:
     
     # Tách dữ liệu huấn luyện và dự đoán
     num_train_rows = train_data.shape[0]
-    train_encoded = combined_data.iloc[:num_train_rows].drop(columns=['is_train'])
-    predict_encoded = combined_data.iloc[num_train_rows:].drop(columns=['is_train'])
+    train_encoded = combined_data.iloc[:num_train_rows]
+    predict_encoded = combined_data.iloc[num_train_rows:]
     
     # Huấn luyện Isolation Forest
     model = train_isolation_forest(train_encoded)
