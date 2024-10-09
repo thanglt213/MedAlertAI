@@ -108,13 +108,13 @@ if train_file and predict_file:
         
         if model_exists:
             # Hỏi người dùng có muốn huấn luyện lại không
-            train_again = st.radio("File mô hình đã tồn tại. Bạn có muốn huấn luyện lại không?", ("Có", "Không"))
-            if train_again == "Có":
+            st.markdown("**File mô hình đã tồn tại. Bạn có muốn huấn luyện lại không?**")
+            if st.button("Huấn luyện lại"):
                 with st.spinner('Đang huấn luyện mô hình...'):
                     model = train_isolation_forest(train_encoded)
                 st.success("Mô hình đã được huấn luyện thành công!")
                 joblib.dump(model, model_file)  # Lưu mô hình
-            else:
+            elif st.button("Tải mô hình"):
                 with st.spinner('Đang tải mô hình...'):
                     model = joblib.load(model_file)
                 st.success("Mô hình đã được tải thành công!")
@@ -150,4 +150,3 @@ if train_file and predict_file:
 
     except Exception as e:
         st.error(f"Có lỗi xảy ra khi xử lý tệp: {e}")
-
