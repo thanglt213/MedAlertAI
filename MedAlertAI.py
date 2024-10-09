@@ -122,8 +122,11 @@ if train_file and predict_file:
 
     # Biểu đồ
     st.markdown("### Trực quan hóa kết quả")
-    plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác', 'Kênh khai thác', key='key1')
-    plot_prediction_percent_chart(predict_data, 'distribution_channel', 'Tỷ lệ % bất thường theo kênh khai thác', 'Kênh khai thác', key='key2')
-    plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh', 'Chi nhánh',key='key3')
-    plot_prediction_percent_chart(predict_data, 'branch', 'Tỷ lệ % bất thường theo chi nhánh', 'Chi nhánh',key='key4')
-
+    plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác:', 'Kênh khai thác', key='key1')
+    plot_prediction_percent_chart(predict_data, 'distribution_channel', 'Tỷ lệ % bất thường theo kênh khai thác:', 'Kênh khai thác', key='key2')
+  
+    plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh:', 'Chi nhánh',key='key3')
+    plot_prediction_percent_chart(predict_data, 'branch', 'Tỷ lệ % bất thường theo chi nhánh:', 'Chi nhánh',key='key4')
+    
+    plot_prediction_chart(predict_data, 'hospital', 'Số lượng bất thường theo bệnh viện:', 'Bệnh viện', key='key5')
+    plot_prediction_percent_chart(predict_data, 'hospital', 'Tỷ lệ % bất thường theo bệnh viện:', 'Bệnh viện', key='key6')  
