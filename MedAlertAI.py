@@ -59,7 +59,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
     prediction_counts = data.groupby(group_by_col)['Prediction'].value_counts(normalize=True).unstack().fillna(0)
     
     # Chỉ giữ lại tỷ lệ phần trăm cho "Bất thường"
-    prediction_counts['Bất thường'] = prediction_counts.get('Bất thường', 0) *100
+    prediction_counts['Bất thường'] = prediction_counts.get('Bất thường', 0)
     
     # Chuyển đổi thành DataFrame cho dễ xử lý
     prediction_counts = prediction_counts.reset_index()
@@ -73,7 +73,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
                  y='Bất thường',
                  title=title, 
                  labels={group_by_col: ylabel, 'Bất thường': 'Tỷ lệ phần trăm'}, 
-                 text=prediction_counts['Bất thường'].map('{:.1f}%'.format))  # Định dạng nhãn phần trăm
+                 text=prediction_counts['Bất thường'].map('{:.1%}'.format))  # Định dạng nhãn phần trăm
     
     # Hiển thị biểu đồ trong Streamlit với key duy nhất
     st.plotly_chart(fig, key=key)
