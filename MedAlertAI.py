@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 import os
 import numpy as np
 import plotly.express as px
+from PIL import Image
 
 # Giao diện Streamlit
 st.title("Phát hiện bất thường trong bồi thường bảo hiểm sức khỏe")
