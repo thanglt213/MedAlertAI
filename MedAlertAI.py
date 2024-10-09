@@ -49,7 +49,7 @@ def plot_prediction_chart(data, group_by_col, title, ylabel):
     chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
     prediction_counts = chart_data.groupby(group_by_col).size().reset_index(name='Count')
     # Sắp xếp theo Count giảm dần
-    prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
+    #prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
     
     fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
     st.plotly_chart(fig)
