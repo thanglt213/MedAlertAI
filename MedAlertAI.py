@@ -133,28 +133,30 @@ if train_file and predict_file:
         
         # Thực hiện dự đoán và hiển thị kết quả nếu mô hình đã được tải
         if model is not None:
-            with st.spinner('Đang thực hiện dự đoán...'):
-                predictions = model.predict(predict_encoded)
-            predict_data['Prediction'] = np.where(predictions == -1, 'Bất thường', 'Bình thường')
-            
-            # Hiển thị kết quả dự đoán
-            st.write(f"Số lượng bất thường: {sum(predict_data['Prediction'] == 'Bất thường')}/{len(predict_data)}")
-            st.dataframe(predict_data[['Prediction', 'branch', 'claim_no', 'distribution_channel', 'hospital']], use_container_width=True)
+            with st.expander("Thực hiện dự đoán...", expanded=True):
+                with st.spinner('Đang thực hiện dự đoán...'):
+                    predictions = model.predict(predict_encoded)
+                predict_data['Prediction'] = np.where(predictions == -1, 'Bất thường', 'Bình thường')
+                
+                # Hiển thị kết quả dự đoán
+                st.write(f"Số lượng bất thường: {sum(predict_data['Prediction'] == 'Bất thường')}/{len(predict_data)}")
+                st.dataframe(predict_data[['Prediction', 'branch', 'claim_no', 'distribution_channel', 'hospital']], use_container_width=True)
+    
+                # Nút tải xuống kết quả
+                csv = predict_data.to_csv(index=False)
+                st.download_button("Tải xuống kết quả", csv, "predictions.csv", "text/csv")
 
-            # Nút tải xuống kết quả
-            csv = predict_data.to_csv(index=False)
-            st.download_button("Tải xuống kết quả", csv, "predictions.csv", "text/csv")
-
-            # Biểu đồ
-            st.markdown("### Trực quan hóa kết quả")
-            plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác:', 'Kênh khai thác', key='key1')
-            plot_prediction_percent_chart(predict_data, 'distribution_channel', 'Tỷ lệ % bất thường theo kênh khai thác:', 'Kênh khai thác', key='key2')
-          
-            plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh:', 'Chi nhánh', key='key3')
-            plot_prediction_percent_chart(predict_data, 'branch', 'Tỷ lệ % bất thường theo chi nhánh:', 'Chi nhánh', key='key4')
-            
-            plot_prediction_chart(predict_data, 'hospital', 'Số lượng bất thường theo bệnh viện:', 'Bệnh viện', key='key5')
-            plot_prediction_percent_chart(predict_data, 'hospital', 'Tỷ lệ % bất thường theo bệnh viện:', 'Bệnh viện', key='key6')
+            with st.expander("Trực quan hóa kết quả...", expanded=True):
+                # Biểu đồ
+                st.markdown("### Trực quan hóa kết quả")
+                plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác:', 'Kênh khai thác', key='key1')
+                plot_prediction_percent_chart(predict_data, 'distribution_channel', 'Tỷ lệ % bất thường theo kênh khai thác:', 'Kênh khai thác', key='key2')
+              
+                plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh:', 'Chi nhánh', key='key3')
+                plot_prediction_percent_chart(predict_data, 'branch', 'Tỷ lệ % bất thường theo chi nhánh:', 'Chi nhánh', key='key4')
+                
+                plot_prediction_chart(predict_data, 'hospital', 'Số lượng bất thường theo bệnh viện:', 'Bệnh viện', key='key5')
+                plot_prediction_percent_chart(predict_data, 'hospital', 'Tỷ lệ % bất thường theo bệnh viện:', 'Bệnh viện', key='key6')
 
     except Exception as e:
         st.error(f"Có lỗi xảy ra khi xử lý tệp: {e}")
