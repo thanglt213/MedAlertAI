@@ -205,7 +205,6 @@ if train_file and uploaded_file:
     prediction_counts = prediction_counts.sort_values(by='Bất thường %', ascending=False)
     
     # Hiển thị dữ liệu cho biểu đồ
-    #st.write(prediction_counts[['Bất thường %']])
     st.dataframe(prediction_counts, use_container_width=True)
     
     # Định dạng nhãn tỷ lệ % với dấu phần trăm
@@ -265,6 +264,10 @@ if train_file and uploaded_file:
     
     # Sắp xếp theo cột 'Bất thường' giảm dần (hoặc 'Bình thường' nếu muốn)
     prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=True)
+    
+    
+    # Chuyển các giá trị thành chuỗi định dạng phần trăm (2 chữ số thập phân)
+    prediction_percentage = prediction_percentage.applymap(lambda x: f"{x:.2f}%")
     
     # Hiển thị dữ liệu để kiểm tra
     st.dataframe(prediction_percentage, use_container_width=True)
