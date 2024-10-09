@@ -19,7 +19,7 @@ image_path = "ica.jpg"
 image = Image.open(image_path)
 
 # Hiển thị ảnh trong Streamlit
-st.image(image, caption=" ", use_column_width=True, height=100)
+st.image(image, caption=" ", height=100)
 
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
