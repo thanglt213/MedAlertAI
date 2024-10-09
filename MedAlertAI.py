@@ -154,7 +154,7 @@ if train_file and uploaded_file:
     st.download_button("Tải xuống kết quả dự đoán", csv, "predictions.csv", "text/csv", key="download")
 
     st.markdown("## 3. Trực quan hóa kết quả dự đoán")
-    # ------------------------------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
+    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua kênh khai thác
     st.markdown("#### **Kênh khai thác:**")
     
     # Lấy dữ liệu liên quan đến distribution_channel và Prediction
@@ -171,7 +171,6 @@ if train_file and uploaded_file:
     prediction_counts = prediction_counts.drop(columns='Total')
     
     # Hiển thị dữ liệu cho biểu đồ
-    #st.write(prediction_counts)
     st.dataframe(prediction_counts, use_container_width=True)
     
     # Tạo biểu đồ cột sử dụng Plotly
@@ -186,7 +185,7 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
 
-    # ------------------------------------------------------- Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
+    # -------------------------------- Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
     # Biểu đồ thể hiện tỷ lệ % số hồ sơ bất thường qua kênh khai thác
     st.markdown("#### **Kênh khai thác (Tỷ lệ % bất thường):**")
     
@@ -224,7 +223,7 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig)
 
-    # ------------------------------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện 
+    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua bệnh viện 
     st.markdown("#### **Theo bệnh viện:**")
     chart_data = predict_data[['hospital', 'Prediction']]
 
@@ -248,7 +247,7 @@ if train_file and uploaded_file:
     # Hiển thị biểu đồ với Streamlit
     st.plotly_chart(fig)
 
-    # Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh -------------------------------------------------------
+    # -------------------------------- Biểu đồ thể hiện số lượng hồ sơ bồi thường có dấu hiệu bất thường qua chi nhánh 
     st.markdown("#### **Theo chi nhánh:**")
     chart_data = predict_data[['branch', 'Prediction']]
 
@@ -268,7 +267,6 @@ if train_file and uploaded_file:
     prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=True)
     
     # Hiển thị dữ liệu để kiểm tra
-    #st.write(prediction_percentage)
     st.dataframe(prediction_percentage, use_container_width=True)
     
     # Tạo biểu đồ cột ngang với plotly và hiển thị tỷ lệ phần trăm
