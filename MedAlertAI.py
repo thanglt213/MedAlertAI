@@ -62,6 +62,9 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
     # Sắp xếp dữ liệu
     prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
     
+    # Đặt hệ màu tùy chỉnh
+    custom_colors = ['#1f77b4', '#ff7f0e']
+      
     # Tạo biểu đồ stacked bar
     fig = px.bar(
         prediction_counts, 
@@ -70,7 +73,8 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
         color='Prediction',  # Sử dụng cột 'Prediction' để tạo màu sắc cho từng nhóm
         title=title, 
         labels={group_by_col: ylabel}, 
-        text_auto=True
+        text_auto=True,
+        color_discrete_sequence=custom_colors  # Sử dụng hệ màu tùy chỉnh
     )
     
     # Hiển thị biểu đồ trong Streamlit
