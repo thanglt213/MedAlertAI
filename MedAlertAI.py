@@ -21,8 +21,8 @@ image = Image.open(image_path)
 # Lấy kích thước gốc của ảnh
 width, height = image.size
 
-# Tính toán chiều cao mới (1/3 chiều cao ban đầu), giữ nguyên chiều rộng
-new_height = height // 3
+# Tính toán chiều cao mới (1/2 chiều cao ban đầu), giữ nguyên chiều rộng
+new_height = height // 2
 new_size = (width, new_height)
 
 # Resize ảnh
