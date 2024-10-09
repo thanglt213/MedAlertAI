@@ -230,9 +230,7 @@ if train_file and uploaded_file:
     prediction_counts = chart_data.groupby(['hospital', 'Prediction']).size().unstack(fill_value=0)
 
     # Hiển thị dữ liệu để kiểm tra
-    #st.write(prediction_counts)
     st.dataframe(prediction_counts, use_container_width=True)
-
 
     # Tạo biểu đồ cột ngang với plotly
     fig = px.bar(
@@ -265,12 +263,11 @@ if train_file and uploaded_file:
     # Sắp xếp theo cột 'Bất thường' giảm dần (hoặc 'Bình thường' nếu muốn)
     prediction_percentage = prediction_percentage.sort_values('Bất thường', ascending=True)
     
-    
     # Chuyển các giá trị thành chuỗi định dạng phần trăm (2 chữ số thập phân)
-    prediction_percentage = prediction_percentage.applymap(lambda x: f"{x:.2f}%")
+    prediction_percentage_1 = prediction_percentage.applymap(lambda x: f"{x:.2f}%")
     
     # Hiển thị dữ liệu để kiểm tra
-    st.dataframe(prediction_percentage, use_container_width=True)
+    st.dataframe(prediction_percentage_1, use_container_width=True)
     
     # Tạo biểu đồ cột ngang với plotly và hiển thị tỷ lệ phần trăm
     fig = px.bar(
