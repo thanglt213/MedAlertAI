@@ -45,17 +45,17 @@ def train_isolation_forest(train_data, contamination_rate=0.05):
     return model
 
 # Hàm hiển thị biểu đồ
-def plot_prediction_chart(data, group_by_col, title, ylabel):
+def plot_prediction_chart(data, group_by_col, title, ylabel, key):
     chart_data = data[data['Prediction'] == 'Bất thường'][[group_by_col, 'Prediction']]
     prediction_counts = chart_data.groupby(group_by_col).size().reset_index(name='Count')
     # Sắp xếp theo Count giảm dần
-    #prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
+    prediction_counts = prediction_counts.sort_values(by='Count', ascending=False)
     
     fig = px.bar(prediction_counts, x=group_by_col, y='Count', title=title, labels={group_by_col: ylabel}, text_auto=True)
     st.plotly_chart(fig)
     
     # Hiển thị biểu đồ trong Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig, key=key)
 
 
 # Main Streamlit app
@@ -93,8 +93,8 @@ if train_file and predict_file:
 
     # Biểu đồ
     st.markdown("### Trực quan hóa kết quả")
-    plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác', 'Kênh khai thác')
-    plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh', 'Chi nhánh')
+    plot_prediction_chart(predict_data, 'distribution_channel', 'Số lượng bất thường theo kênh khai thác', 'Kênh khai thác', key='key1')
+    plot_prediction_chart(predict_data, 'branch', 'Số lượng bất thường theo chi nhánh', 'Chi nhánh',key='key2')
 
     # Nút tải xuống kết quả
     csv = predict_data.to_csv(index=False)
