@@ -62,7 +62,7 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
         y='Count', 
         color='Prediction',  # Sử dụng cột 'Prediction' để tạo màu sắc cho từng nhóm
         title=title, 
-        labels={group_by_col: ylabel}, 
+        #labels={group_by_col: ylabel}, 
         text_auto=True,
         color_discrete_sequence=custom_colors  # Sử dụng hệ màu tùy chỉnh
     )
@@ -90,7 +90,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
                  x=group_by_col, 
                  y='Bất thường',
                  title=title, 
-                 labels={group_by_col: ylabel, 'Bất thường': 'Tỷ lệ phần trăm'}, 
+                 #labels={group_by_col: ylabel, 'Bất thường': 'Tỷ lệ phần trăm'}, 
                  text=prediction_counts['Bất thường'].map('{:.1%}'.format))  # Định dạng nhãn phần trăm
     
     # Hiển thị biểu đồ trong Streamlit với key duy nhất
