@@ -77,7 +77,7 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
                  title=title, 
                  labels={group_by_col: ylabel, 'Percentage': 'Tỷ lệ phần trăm'}, 
                  text=prediction_counts['Percentage'].map('{:.1f}%'.format),  # Chuyển đổi sang định dạng % với 1 chữ số thập phân
-                 textposition='auto')  # Đặt vị trí nhãn tự động
+                 text_auto=True)  # Đặt vị trí nhãn tự động
     
     # Hiển thị biểu đồ trong Streamlit với key duy nhất
     st.plotly_chart(fig, key=key)
