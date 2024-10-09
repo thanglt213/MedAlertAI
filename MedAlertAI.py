@@ -71,8 +71,13 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
     prediction_counts['Percentage'] = (prediction_counts['Count'] / total_count) * 100
     
     # Tạo biểu đồ cột theo tỷ lệ phần trăm
-    fig = px.bar(prediction_counts, x=group_by_col, y='Percentage',
-                 title=title, labels={group_by_col: ylabel, 'Percentage': 'Tỷ lệ phần trăm'}, text_auto=True)
+    fig = px.bar(prediction_counts, 
+                 x=group_by_col, 
+                 y='Percentage',
+                 title=title, 
+                 labels={group_by_col: ylabel, 'Percentage': 'Tỷ lệ phần trăm'}, 
+                 text=prediction_counts['Percentage'].map('{:.1f}%'.format),  # Chuyển đổi sang định dạng % với 1 chữ số thập phân
+                 textposition='auto')  # Đặt vị trí nhãn tự động
     
     # Hiển thị biểu đồ trong Streamlit với key duy nhất
     st.plotly_chart(fig, key=key)
