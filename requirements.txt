@@ -5,4 +5,3 @@ matplotlib
 seaborn
 joblib
 plotly.express
-PIL
