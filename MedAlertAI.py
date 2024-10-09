@@ -66,6 +66,12 @@ def plot_prediction_chart(data, group_by_col, title, ylabel, key):
         text_auto=True,
         color_discrete_sequence=custom_colors  # Sử dụng hệ màu tùy chỉnh
     )
+
+    # Bỏ tiêu đề trục x và y
+    fig.update_layout(
+        xaxis_title="",  # Bỏ tiêu đề trục x
+        yaxis_title="",  # Bỏ tiêu đề trục y
+    )
     
     # Hiển thị biểu đồ trong Streamlit
     st.plotly_chart(fig, key=key)
@@ -92,6 +98,12 @@ def plot_prediction_percent_chart(data, group_by_col, title, ylabel, key):
                  title=title, 
                  labels={group_by_col: ylabel, 'Bất thường': 'Tỷ lệ phần trăm'}, 
                  text=prediction_counts['Bất thường'].map('{:.1%}'.format))  # Định dạng nhãn phần trăm
+    
+    # Bỏ tiêu đề trục x và y
+    fig.update_layout(
+        xaxis_title="",  # Bỏ tiêu đề trục x
+        yaxis_title="",  # Bỏ tiêu đề trục y
+    )
     
     # Hiển thị biểu đồ trong Streamlit với key duy nhất
     st.plotly_chart(fig, key=key)
