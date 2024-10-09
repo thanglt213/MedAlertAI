@@ -137,6 +137,7 @@ if train_file and predict_file:
                             model = train_isolation_forest(train_encoded)
                         st.success("Mô hình đã được huấn luyện!")
                         joblib.dump(model, model_file)  # Lưu mô hình
+                st.markdown('</div>', unsafe_allow_html=True)
         else:
             with st.spinner('Đang huấn luyện mô hình...'):
                 model = train_isolation_forest(train_encoded)
