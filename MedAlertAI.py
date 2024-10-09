@@ -117,12 +117,12 @@ if train_file and predict_file:
                 if st.button("Tải mô hình"):
                     with st.spinner('Đang tải mô hình...'):
                         model = joblib.load(model_file)
-                    st.success("Mô hình đã được tải thành công!")
+                    st.success("Mô hình đã được tải!")
             with col2:
                 if st.button("Huấn luyện lại"):
                     with st.spinner('Đang huấn luyện mô hình...'):
                         model = train_isolation_forest(train_encoded)
-                    st.success("Mô hình đã được huấn luyện thành công!")
+                    st.success("Mô hình đã được huấn luyện!")
                     joblib.dump(model, model_file)  # Lưu mô hình
         else:
             with st.spinner('Đang huấn luyện mô hình...'):
