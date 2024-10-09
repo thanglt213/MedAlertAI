@@ -89,6 +89,7 @@ display_resized_image("ica.jpg")
 st.info("Bất thường không có nghĩa là gian lận, nhưng gian lận là bất thường!", icon="ℹ️")
 
 # Tải dữ liệu huấn luyện và dự đoán
+st.markdown("### Tải dữ liệu, huấn luyện và dự đoán")
 train_file = st.file_uploader("Chọn file CSV huấn luyện", type=["csv"], key='train')
 predict_file = st.file_uploader("Chọn file CSV dự đoán", type=["csv"], key='predict')
 
